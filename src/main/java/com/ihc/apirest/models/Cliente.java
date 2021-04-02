@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -23,80 +25,95 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(schema = "dbo", name = "clientes_registro")
+@Table(schema="dimension")
 public class Cliente implements UserDetails
 {
-  private static final long serialVersionUID = 1L;
-  @Id
+
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long idCliente;
+	private Long idBarrio;
 	private String cedula;
-	private String nombres;
-	@Column(name = "codprovincia")
-	private String codProvincia;
-	@Column(name = "codciudad")
-	private String codCiudad;
-	private String direccion;
-	private String correo;
+	private String nombre;
 	private String telefono;
+	private String direccion;
+	private String email;
+	private Date fechaNacimiento;
+	private String sexo;
+	private String tipoCliente;
 	@Column(name = "clave", updatable = false)
-	private String clave;
-	private Date fecha;
-	private String direccionEntrega;
-	private String latitud;
-	private String longitud;
-	private int estado;
+	private String password;
+	private String barrio;
 
 	@Transient
-	private String claveIngresada;
+	private boolean tendero;
+
 	@Transient
-	private String nuevaClave;
+	private String nuevoPassword;
+	
 	@Transient
-	private String nuevoCorreo;
+	private String nuevoEmail;
+	
 	@Transient
 	private String token;
 
-	// Pendiente por definir en tiny
-	// private String sexo;
-	// private String pais;
-	// private String politicas;
 
+	
 
-
-
-	public Cliente(String cedula) 
+	public Cliente(Long idCliente) 
 	{
-		this.cedula = cedula;
+		this.idCliente = idCliente;
 	}
 
 
 
+	public Cliente(Long idCliente, String nombre, boolean tendero) 
+	{
+		this.idCliente = idCliente;
+		this.nombre = nombre;
+		this.tendero = tendero;
+	}
+
+
+
+
+	@JsonIgnore
+	@Override
+	public String getPassword() 
+	{
+		return password;
+	}
+
+
+	
+	/**************************************************************************************************************************
+	 * Metodos derivados de la implementación "UserDetails" para el manejo de seguridad y autenticación del usuario
+	 * ************************************************************************************************************************/
 
 	@JsonIgnore
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() 
 	{
 		List<GrantedAuthority> lstRoles = new ArrayList<>();
-    lstRoles.add(new SimpleGrantedAuthority(Rol.ROLE_ACUATEX_CLIENTE.name()));
+    lstRoles.add(new SimpleGrantedAuthority(Rol.ROLE_CLIENTE.name()));
     
 		return lstRoles;
 	}
 
-	@JsonIgnore
-	@Override
-	public String getPassword() 
-	{
-		return clave;
-	}
 
 	@JsonIgnore
 	@Override
 	public String getUsername() 
 	{
-		return correo;
+		return email;
 	}
 
 	@JsonIgnore

@@ -12,26 +12,25 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, String>
 {
-    //Métodos propios de spring para ejecutar consultas por medio de JPA
+    
+    @Modifying
+    @Query("update Cliente c SET c.email = ?1, c.password= ?2 where c.cedula = ?3")
+    Integer actualizarPasswordCliente(String email, String password, String cedula);
+
 
     @Modifying
-    @Query("update Cliente c SET c.correo = ?1, c.clave= ?2 where c.cedula = ?3")
-    Integer actualizarDatosAccesoCliente(String correo, String clave, String cedula);
+    @Query("update Cliente c SET c.password= ?1 where c.email = ?2")
+    Integer restaurarPassword(String password, String email);
 
 
-    @Modifying
-    @Query("update Cliente c SET c.clave= ?1 where c.correo = ?2")
-    Integer restaurarClave(String clave, String correo);
+    boolean existsByCedulaAndPassword(String cedula, String password);
 
 
-    boolean existsByCedulaAndClave(String cedula, String clave);
+    boolean existsByEmail(String email);
 
 
-    boolean existsByCorreo(String correo);
+    Cliente findByEmailAndPassword(String email, String password);
 
 
-    Cliente findByCorreoAndClave(String correo, String clave);
-
-
-    Cliente findByCorreo(String correo);
+    Cliente findByEmail(String email);
 }

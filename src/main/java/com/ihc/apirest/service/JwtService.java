@@ -27,10 +27,11 @@ public class JwtService
   @Value("${jwt.expiration}")
   private int expiration;
 
+
   
   /**
-   * Método que permite crear un token a partir de la autenticación del cliente (login y clave)
-   * @param cliente que contiene roles y el user name
+   * Método que permite crear un token a partir de la autenticación del cliente (login y password)
+   * @param cliente que contiene roles y el username(email)
    * @return Token
    */
   public String generarToken(Cliente cliente) 
@@ -51,14 +52,15 @@ public class JwtService
 
   
   /**
-   * Método que permite obtener el user name a partir del token
-   * @param token que contiene el user name
-   * @return User name
+   * Método que permite obtener el username(email) a partir del token
+   * @param token que contiene el username
+   * @return Username
    */
   public String getUserNameFromToken(String token) 
   {
     return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
   }
+
 
 
   /**
@@ -98,6 +100,7 @@ public class JwtService
     }
     return false;
   }
+
 
 
   /**

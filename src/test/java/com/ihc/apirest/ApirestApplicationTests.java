@@ -24,16 +24,13 @@ class ApirestApplicationTests
 	{
 		Cliente cliente = new Cliente();
 		cliente.setCedula("1");
-		cliente.setNombres("1");
-		cliente.setCorreo("1@1.com");
-		cliente.setCodProvincia("04");
-		cliente.setCodCiudad("001");
-
-		cliente.setClave(bcrypt.encode("pandi"));
+		cliente.setNombre("1");
+		cliente.setEmail("1@1.com");
+		cliente.setPassword(bcrypt.encode("pandi"));
 		
 		Cliente clienteBD = clienteRepository.save(cliente);
 		
-		assertTrue(clienteBD.getClave().equalsIgnoreCase(cliente.getClave()));
+		assertTrue(clienteBD.getPassword().equalsIgnoreCase(cliente.getPassword()));
 	}
 
 
@@ -42,15 +39,12 @@ class ApirestApplicationTests
 	{
 		Cliente cliente = new Cliente();
 		cliente.setCedula("1");
-		cliente.setNombres("1");
-		cliente.setCorreo("1@1.com");
-		cliente.setCodProvincia("04");
-		cliente.setCodCiudad("001");
-
-		cliente.setClave("pandi");
+		cliente.setNombre("1");
+		cliente.setEmail("1@1.com");
+		cliente.setPassword("pandi");
 		
-		Cliente clienteBD = clienteRepository.findByCorreo(cliente.getCorreo());
+		Cliente clienteBD = clienteRepository.findByEmail(cliente.getEmail());
 		
-		assertTrue(bcrypt.matches(cliente.getClave(), clienteBD.getClave()));
+		assertTrue(bcrypt.matches(cliente.getPassword(), clienteBD.getPassword()));
 	}
 }

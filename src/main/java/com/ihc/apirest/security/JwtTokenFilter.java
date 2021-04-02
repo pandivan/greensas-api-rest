@@ -18,6 +18,9 @@ import com.ihc.apirest.service.UserDetailsServiceImpl;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
+
+
 public class JwtTokenFilter extends OncePerRequestFilter 
 {
 

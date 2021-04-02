@@ -18,13 +18,13 @@ public class ClienteService
 
 
   /**
-   * Método que permite obtener un cliente según su correo
-   * @param correo con el cual se buscara el cliente en BD
+   * Método que permite obtener un cliente según su email
+   * @param email con el cual se buscara el cliente en BD
    * @return Cliente encontrado
    */
-  public Cliente getClienteByCorreo(String correo) 
+  public Cliente getClienteByEmail(String email) 
   {
-    return clienteRepository.findByCorreo(correo);
+    return clienteRepository.findByEmail(email);
   }
 
 
@@ -44,30 +44,30 @@ public class ClienteService
    * @param cliente a registrar
    * @return Cliente registrado
    */
-  public Integer actualizarDatosAccesoCliente(Cliente cliente) 
+  public Integer actualizarPasswordCliente(Cliente cliente) 
   {
-    return clienteRepository.actualizarDatosAccesoCliente(cliente.getCorreo(), cliente.getClave(), cliente.getCedula());
+    return clienteRepository.actualizarPasswordCliente(cliente.getEmail(), cliente.getPassword(), cliente.getCedula());
   }
 
 
   /**
-   * Método que permite restaurar temporalmente la clave de un cliente en BD
-   * @param cliente a restaurar clave
+   * Método que permite restaurar temporalmente la password de un cliente en BD
+   * @param cliente a restaurar password
    * @return Cliente registrado
    */
-  public Integer restaurarClave(String clave, String correo)
+  public Integer restaurarPassword(String password, String email)
   {
-    return clienteRepository.restaurarClave(clave, correo);
+    return clienteRepository.restaurarPassword(password, email);
   }
 
 
   /**
-   * Método que permite validar si un correo existe en bd
-   * @param correo a valdiar
-   * @return true si existe el correo, en caso contrario false
+   * Método que permite validar si un email existe en bd
+   * @param email a valdiar
+   * @return true si existe el email, en caso contrario false
    */
-  public boolean existeClienteByCorreo(String correo) 
+  public boolean existeClienteByEmail(String email) 
   {
-    return clienteRepository.existsByCorreo(correo);
+    return clienteRepository.existsByEmail(email);
   }
 }

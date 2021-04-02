@@ -55,8 +55,6 @@ public class AutenticacionRestController
   @Autowired
   BCryptPasswordEncoder bcrypt;
 
-
-
   SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
   
 
@@ -70,9 +68,9 @@ public class AutenticacionRestController
   {
     try 
     {
-      boolean isExistenteCliente = clienteService.existeClienteByCorreo(cliente.getCorreo());
+      boolean isExistenteCliente = clienteService.existeClienteByEmail(cliente.getEmail());
 
-      //Se valida que el correo del cliente no este registrado en la plataforma
+      //Se valida que el email del cliente no este registrado en la plataforma
       if(isExistenteCliente)
       {
         return new ResponseEntity<String>(HttpStatus.CREATED);
@@ -97,7 +95,7 @@ public class AutenticacionRestController
         // usuario.setRoles(roles);
        **/
 
-      cliente.setClave(bcrypt.encode(cliente.getClave()));
+      cliente.setPassword(bcrypt.encode(cliente.getPassword()));
 
       //Este metodo creará un usuario en BD para la app de [mi-bario-app]
       Cliente clienteBD = clienteService.registrarCliente(cliente);
@@ -115,8 +113,8 @@ public class AutenticacionRestController
 
 
   /**
-   * Método que permite validar un cliente según su correo y clave
-   * @param cliente que contiente el correo y clave a validar
+   * Método que permite validar un cliente según su email y password
+   * @param cliente que contiente el email y password a validar
    * @return Cliente encontrado
    */
   @PostMapping(value = "/login")
@@ -124,9 +122,9 @@ public class AutenticacionRestController
   {
     try
     {
-      //El correo es el username de la aplicacion
-      //Se valida autenticación por medio de correo y clave
-      Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(cliente.getCorreo(), cliente.getClave()));
+      //El email es el username de la aplicacion
+      //Se valida autenticación por medio de email y password
+      Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(cliente.getEmail(), cliente.getPassword()));
         
       SecurityContextHolder.getContext().setAuthentication(authentication);
       
@@ -168,21 +166,21 @@ public class AutenticacionRestController
 
 
   /**
-   * Método que permite restaurar temporalmente la clave de un cliente en BD
-   * @param correo
+   * Método que permite restaurar temporalmente la password de un cliente en BD
+   * @param email
    * @return
    */
   @PutMapping(value = "/restaurar")
-  public ResponseEntity<Boolean> restaurarClave(@RequestBody String correo)
+  public ResponseEntity<Boolean> restaurarPassword(@RequestBody String email)
   {
     try
     {
 
-      // String claveRandom = "1234";
+      // String passwordRandom = "1234";
 
-      // claveRandom = bcrypt.encode(claveRandom);
+      // passwordRandom = bcrypt.encode(passwordRandom);
 
-      // clienteService.restaurarClave(claveRandom, correo);
+      // clienteService.restaurarPassword(passwordRandom, email);
 
       // String YOUR_DOMAIN_NAME = "sandboxa3bb8428392a4b859f2af588ec5feb87.mailgun.org";
       String API_KEY = "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";

@@ -2,29 +2,45 @@ package com.ihc.apirest.repository;
 
 import java.util.List;
 
+import com.ihc.apirest.models.Cliente;
 import com.ihc.apirest.models.Pedido;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-// import org.springframework.transaction.annotation.Transactional;
+
 
 
 
 @Repository
-public interface PedidoRepository extends JpaRepository<Pedido, Long>
+public interface PedidoRepository extends JpaRepository<Pedido, Long> 
 {
 
-  // @Transactional
   @Modifying
-  @Query("update Pedido p SET p.estado = ?1 where p.nroPedido = ?2 and p.cliente = ?3")
-  void actualizarEstadoPedido(Integer estado, String nroPedido, Integer cliente);
+  @Query("update Pedido p SET p.idTienda = ?1, p.idEstado = ?2 where p.idPedido = ?3")
+  void actualizarPedido(Long idTienda, Long idEstado, Long idPedido);
 
 
-  List<Pedido> findByCorreo(String correo);
+
+  @Modifying
+  @Query("update Pedido p SET p.idEstado = ?1 where p.idPedido = ?2")
+  void actualizarEstadoPedido(Long idEstado, Long idPedido);
 
 
-  @Query(value = "SELECT MAX(nro_pedido) from dbo.pedido_encabezado", nativeQuery = true)
-  String maxNroPedido();
+
+  @Query("select p.idPedido from Pedido p where p.idPedido = ?1 and p.idEstado = ?2")
+  Long findByIdPedidoAndIdEstado(Long idPedido, Long idEstado);
+
+
+
+  List<Pedido> findByIdEstado(Long idEstado);
+
+
+
+  List<Pedido> findByIdTiendaAndIdEstado(Long idTienda, Long idEstado);
+
+  
+
+  List<Pedido> findByCliente(Cliente cliente);
 }

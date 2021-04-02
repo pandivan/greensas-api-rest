@@ -44,49 +44,48 @@ public class ClienteRestController
    */
   // @PreAuthorize("hasRole('ROLE_ACUATEX_CLIENTE')")
   @PutMapping("/clientes/datos_acceso")
-  public ResponseEntity<Cliente> actualizarDatosAccesoCliente(@RequestBody Cliente cliente)
+  public ResponseEntity<Cliente> actualizarPasswordCliente(@RequestBody Cliente cliente)
   {
     try 
     {  
-      String correo = jwtService.getUserNameFromToken(cliente.getToken());
+      String email = jwtService.getUserNameFromToken(cliente.getToken());
 
-      Cliente clienteBD = clienteService.getClienteByCorreo(correo);
+      Cliente clienteBD = clienteService.getClienteByEmail(email);
 
 
-      if(null != clienteBD && bcrypt.matches(cliente.getClaveIngresada(), clienteBD.getClave()))
+      if(null != clienteBD)
       {
-        //Se hace set de la clave por temas de sql update
-        cliente.setClave(clienteBD.getClave());
-        cliente.setCorreo(clienteBD.getCorreo());
+        //Se hace set del password por temas de sql update
+        cliente.setPassword(clienteBD.getPassword());
+        cliente.setEmail(clienteBD.getEmail());
         cliente.setCedula(clienteBD.getCedula());
 
-        if(null != cliente.getNuevaClave())
+        if(null != cliente.getNuevoPassword())
         {
-          cliente.setClave(bcrypt.encode(cliente.getNuevaClave()));
+          cliente.setPassword(bcrypt.encode(cliente.getNuevoPassword()));
         }
 
-        if(null != cliente.getNuevoCorreo())
+        if(null != cliente.getNuevoEmail())
         {
-          if(clienteService.existeClienteByCorreo(cliente.getNuevoCorreo()))
+          if(clienteService.existeClienteByEmail(cliente.getNuevoEmail()))
           {
             return new ResponseEntity<Cliente>(HttpStatus.CREATED);
           }
-          cliente.setCorreo(cliente.getNuevoCorreo());
+          cliente.setEmail(cliente.getNuevoEmail());
 
-          //Al actualizar el correo estamos cambiando el user name de la aplicación, recordar que este user name esta impreso en el token, es por eso que debemos genear un token nuevo
+          //Al actualizar el email estamos cambiando el username de la aplicación, recordar que este username esta impreso en el token, es por eso que debemos genear un token nuevo
           String token = jwtService.generarToken(cliente);
 
           cliente.setToken(token);
         }
 
-        clienteService.actualizarDatosAccesoCliente(cliente);
+        clienteService.actualizarPasswordCliente(cliente);
 
         //Se quitan datos sensibles del usuario por seguridad
-        cliente.setClaveIngresada(null);
-        cliente.setNuevaClave(null);
-        cliente.setClave(null);
+        cliente.setNuevoPassword(null);
+        cliente.setPassword(null);
         cliente.setCedula(null);
-        cliente.setNuevoCorreo(null);
+        cliente.setNuevoEmail(null);
 
         //Se retorna el cliente con el nuevo token
         return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
@@ -136,11 +135,12 @@ public class ClienteRestController
     try
     {
       String token = jwtService.getToken(headerAuthorization);
-      String correo = jwtService.getUserNameFromToken(token);
+      String email = jwtService.getUserNameFromToken(token);
 
-      Cliente clienteBD = clienteService.getClienteByCorreo(correo);
+      Cliente clienteBD = clienteService.getClienteByEmail(email);
 
-      clienteBD.setClave(null);
+      //Se quitan datos sensibles del usuario por seguridad
+      clienteBD.setPassword(null);
       
       return new ResponseEntity<Cliente>(clienteBD, HttpStatus.OK);
     }
@@ -153,19 +153,19 @@ public class ClienteRestController
 
 
   /**
-   * Método que permite obtener el correo del cliente a partir del token
+   * Método que permite obtener el email del cliente a partir del token
    * @param headerAuthorization contiene el token
-   * @return Correo del cliente
+   * @return Email del cliente
    */
   @GetMapping(value = "/clientes/mail")
-  public ResponseEntity<String> getCorreoCliente(@RequestHeader("Authorization") String headerAuthorization) 
+  public ResponseEntity<String> getEmailCliente(@RequestHeader("Authorization") String headerAuthorization) 
   {
     try
     {
       String token = jwtService.getToken(headerAuthorization);
-      String correo = jwtService.getUserNameFromToken(token);
+      String email = jwtService.getUserNameFromToken(token);
       
-      return new ResponseEntity<String>(correo, HttpStatus.OK);
+      return new ResponseEntity<String>(email, HttpStatus.OK);
     }
     catch (Exception e) 
     {
