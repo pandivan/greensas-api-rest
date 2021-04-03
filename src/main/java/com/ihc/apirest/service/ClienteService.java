@@ -40,13 +40,24 @@ public class ClienteService
 
 
   /**
-   * Método que permite registrar un cliente en BD
-   * @param cliente a registrar
-   * @return Cliente registrado
+   * Método que permite actualizar el password del cliente en BD
+   * @param cliente que contiene el password a actualizar
+   * @return 1 si el password fue actualizado, en caso contrario 0
    */
   public Integer actualizarPasswordCliente(Cliente cliente) 
   {
-    return clienteRepository.actualizarPasswordCliente(cliente.getEmail(), cliente.getPassword(), cliente.getCedula());
+    return clienteRepository.actualizarPasswordCliente(cliente.getPassword(), cliente.getEmail());
+  }
+
+
+  /**
+   * Método que permite actualizar el email del cliente en BD
+   * @param cliente que contiene el email a actualizar
+   * @return 1 si el email fue actualizado, en caso contrario 0
+   */
+  public Integer actualizarEmailCliente(Cliente cliente) 
+  {
+    return clienteRepository.actualizarEmailCliente(cliente.getNuevoEmail(), cliente.getEmail());
   }
 
 

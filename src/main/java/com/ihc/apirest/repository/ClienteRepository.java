@@ -14,8 +14,13 @@ public interface ClienteRepository extends JpaRepository<Cliente, String>
 {
     
     @Modifying
-    @Query("update Cliente c SET c.email = ?1, c.password= ?2 where c.cedula = ?3")
-    Integer actualizarPasswordCliente(String email, String password, String cedula);
+    @Query("update Cliente c SET c.password = ?1 where c.email = ?2")
+    Integer actualizarPasswordCliente(String password, String email);
+
+
+    @Modifying
+    @Query("update Cliente c SET c.email = ?1 where c.email = ?2")
+    Integer actualizarEmailCliente(String nuevoEmail, String email);
 
 
     @Modifying

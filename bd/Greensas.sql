@@ -206,7 +206,28 @@ primary key (id_aforo)
 );
 
 
-
+--Ejecutar consulta en la maquina de distribuidores y exportar el restulado a csv
+--SELECT [INT_PK_ID_TIEMPO] id_tiempo
+--      ,[DTM_FECHA] fecha
+--      ,[INT_A—O] aÒo
+--      ,[INT_A—O_SEMESTRE] semestre
+--      ,[INT_TRIMESTRE] trimestre
+--      ,[INT_MES] mes
+--      ,[VAR_MES_NOMBRE] mes_nombre
+--      ,[VAR_NOMBRE_DIA_SEMANA] dia_semana
+--      ,[INT_SEMANA] semana
+--      ,[DTM_FECHA_INICIO_A—O] fecha_inicio_aÒo
+--      ,[DTM_FECHA_FIN_A—O] fecha_fin_aÒo
+--      ,[DTM_FECHA_INICIO_SEMESTRE] fecha_inicio_semestre
+--      ,[DTM_FECHA_FIN_SEMESTRE] fecha_fin_semestre
+--      ,[DTM_FECHA_INICIO_TRIMESTRE] fecha_inicio_trimestre
+--      ,[DTM_FECHA_FIN_TRIMESTRE] fecha_fin_trimestre
+--      ,[DTM_FECHA_INICIO_MES] fecha_inicio_mes
+--      ,[DTM_FECHA_FIN_MES] fecha_fin_mes
+--      ,[DTM_FECHA_INICIO_SEMANA] fecha_inicio_semana
+--      ,[DTM_FECHA_FIN_SEMANA] fecha_fin_semana
+--  FROM [DW_CENC_BI].[Dimensiones].[TIEMPO]
+--  where INT_PK_ID_TIEMPO >= 20200101
 
 
 
@@ -382,28 +403,28 @@ commit;
  * Soporte Mi Barrio
  *********************************************************************************************************************************/
 
---select count(1), cedula, id_tiempo_fecha_creacion from dimension.cliente 
---group by cedula,id_tiempo_fecha_creacion having count(1)>1 
---order by 3 desc
---;
---
---
---
---
+
 --select * from dimension.empresa;
---
---select * from dimension.geografia;
---
---select min(id_tiempo ) from dimension.tiempo;
+
+select * from dimension.geografia;
+
+select * from dimension.tiempo;
+
+--delete from dimension.tiempo;
 --
 --select * from dimension.barrio;
 --
---select * from dimension.estado;
+select * from dimension.estado;
 --
 --select * from dimension.producto;
 --
---select * from dimension.cliente order by 1 desc;
---
+select * from dimension.cliente order by 1 desc;
+
+--delete from dimension.cliente;
+
+
+
+
 --select  * from dimension.aforo 
 ----order by 1 desc
 --;

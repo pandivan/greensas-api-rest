@@ -40,6 +40,7 @@ public class Cliente implements UserDetails
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idCliente;
+	private Long idGeografia;
 	private Long idBarrio;
 	private String cedula;
 	private String nombre;
@@ -49,12 +50,14 @@ public class Cliente implements UserDetails
 	private Date fechaNacimiento;
 	private String sexo;
 	private String tipoCliente;
-	@Column(name = "clave", updatable = false)
+	@Column(name = "password", updatable = false)
 	private String password;
 	private String barrio;
+	private Integer estado;
 
-	@Transient
-	private boolean tendero;
+	// @JsonIgnore
+	// @Transient
+	// private boolean tendero;
 
 	@Transient
 	private String nuevoPassword;
@@ -62,8 +65,8 @@ public class Cliente implements UserDetails
 	@Transient
 	private String nuevoEmail;
 	
-	@Transient
-	private String token;
+	// @Transient
+	// private String token;
 
 
 	
@@ -74,25 +77,17 @@ public class Cliente implements UserDetails
 	}
 
 
-
-	public Cliente(Long idCliente, String nombre, boolean tendero) 
-	{
-		this.idCliente = idCliente;
-		this.nombre = nombre;
-		this.tendero = tendero;
-	}
-
+	// public Cliente(Long idCliente, String nombre, boolean tendero) 
+	// {
+	// 	this.idCliente = idCliente;
+	// 	this.nombre = nombre;
+	// 	this.tendero = tendero;
+	// }
 
 
 
-	@JsonIgnore
-	@Override
-	public String getPassword() 
-	{
-		return password;
-	}
 
-
+	
 	
 	/**************************************************************************************************************************
 	 * Metodos derivados de la implementación "UserDetails" para el manejo de seguridad y autenticación del usuario
@@ -109,12 +104,20 @@ public class Cliente implements UserDetails
 	}
 
 
+	@Override
+	public String getPassword() 
+	{
+		return password;
+	}
+
+
 	@JsonIgnore
 	@Override
 	public String getUsername() 
 	{
 		return email;
 	}
+
 
 	@JsonIgnore
 	@Override
@@ -123,6 +126,7 @@ public class Cliente implements UserDetails
 		return true;
 	}
 
+
 	@JsonIgnore
 	@Override
 	public boolean isAccountNonLocked() 
@@ -130,12 +134,14 @@ public class Cliente implements UserDetails
 		return true;
 	}
 
+
 	@JsonIgnore
 	@Override
 	public boolean isCredentialsNonExpired() 
 	{
 		return true;
 	}
+
 
 	@JsonIgnore
 	@Override
