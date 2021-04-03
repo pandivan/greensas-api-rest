@@ -415,9 +415,9 @@ select * from dimension.tiempo;
 --select * from dimension.barrio;
 --
 select * from dimension.estado;
---
---select * from dimension.producto;
---
+
+select * from dimension.producto;
+
 select * from dimension.cliente order by 1 desc;
 
 --delete from dimension.cliente;
@@ -428,18 +428,19 @@ select * from dimension.cliente order by 1 desc;
 --select  * from dimension.aforo 
 ----order by 1 desc
 --;
---
---
+
 --update hechos.pedido set id_tienda = null, id_estado = 100 where id_pedido in (1,2,3,4,5,6,7);
---
---
---
---select * from hechos.pedido;
---
---select * from dimension.producto_pedido;
---
---truncate table hechos.pedido;
---
+
+select * from hechos.pedido;
+
+select * from dimension.producto_pedido;
+
+
+truncate table dimension.producto_pedido;
+delete from hechos.pedido;
+
+
+
 --delete from dimension.cliente where id_cliente > 4;
 --
 --select p.id_pedido, t.nombre tienda, pro.nombre producto, pp.cantidad, pp.valor, c.nombre cliente, p.fecha_pedido, e.descripcion estado, e.id_estado 

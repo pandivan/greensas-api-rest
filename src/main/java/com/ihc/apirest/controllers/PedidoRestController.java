@@ -72,10 +72,10 @@ public class PedidoRestController
 
   /**
    * Método que permite actualizar una pedido
-   * @param pedido, Pedido actualizar
-   * @return True si el pedido fue actualizado, en caso contrario False
+   * @param pedido a actualizar
+   * @return true si el pedido fue actualizado, en caso contrario false
    */
-  @PutMapping("/pedido")
+  @PutMapping("/pedidos")
   public ResponseEntity<Boolean> actualizarPedido(@RequestBody Pedido pedido)
   {
     boolean isActualizado = false;
@@ -107,7 +107,7 @@ public class PedidoRestController
    * @return True si el pedido fue actualizado, en caso contrario False
    */
   // @PreAuthorize("hasRole('ROLE_ACUATEX_CLIENTE')")
-  @PutMapping("/pedidos")
+  @PutMapping("/pedidos/estado")
   public ResponseEntity<Boolean> actualizarEstadoPedido(@RequestBody Pedido pedido)
   {
     try 
@@ -129,7 +129,7 @@ public class PedidoRestController
    * Método que permite obtener todos los pedidos PENDIENTES
    * @return Listado de pedidos
    */
-  @GetMapping(value = "/pedido")
+  @GetMapping(value = "/pedidos")
   public ResponseEntity<List<Pedido>> getPedidosPendientes() 
   {
     try
@@ -150,7 +150,7 @@ public class PedidoRestController
    * Método que permite obtener todos los pedidos aceptados por la tienda
    * @return Listado de pedidos
    */
-  @GetMapping(value = "/pedido/tienda/{idTienda}")
+  @GetMapping(value = "/pedidos/tienda/{idTienda}")
   public ResponseEntity<List<Pedido>> getHistorialPedidosTienda(@PathVariable("idTienda") Long idTienda)
   {
     try
@@ -171,7 +171,7 @@ public class PedidoRestController
    * Método que permite obtener todos los pedidos realizados por el cliente
    * @return Listado de pedidos
    */
-  @GetMapping(value = "/pedido/cliente/{idCliente}")
+  @GetMapping(value = "/pedidos/cliente/{idCliente}")
   public ResponseEntity<List<Pedido>> getHistorialPedidosCliente(@PathVariable("idCliente") Long idCliente)
   {
     try

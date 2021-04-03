@@ -34,7 +34,7 @@ public class ProductoRestController
    * @return Producto encontrado
    */
   @GetMapping(value = "/productos")
-  public ResponseEntity<Catalogo> findAllCategoriasProductos() 
+  public ResponseEntity<Catalogo> getCategoriasProductosByEmpresa()
   {
     try
     {
@@ -96,7 +96,7 @@ public class ProductoRestController
     //  * @return Producto encontrado
     //  */
     // @GetMapping(value = "/productos")
-    // public ResponseEntity<List<Categoria>> findAllCategoriasProductos() 
+    // public ResponseEntity<List<Categoria>> getCategoriasProductosByEmpresa() 
     // {
     //     try
     //     {
