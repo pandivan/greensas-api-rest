@@ -19,14 +19,13 @@ import javax.persistence.Transient;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(schema="dimension")
+@Table(schema="domicilios")
 public class Producto
 {
   @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idProducto;
 	private Long idEmpresa;
-	private Long idCatalogo;
 	private Long idEstado;
 	private String categoriaNivel1;
 	private String categoriaNivel2;
@@ -42,6 +41,7 @@ public class Producto
 
 	@Transient
 	private int cantidad;
+	
 	@Transient
 	private boolean isSeleccionado;
 }

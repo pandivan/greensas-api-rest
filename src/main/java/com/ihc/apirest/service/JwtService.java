@@ -3,7 +3,7 @@ package com.ihc.apirest.service;
 import java.util.Collection;
 import java.util.Date;
 
-import com.ihc.apirest.models.Cliente;
+import com.ihc.apirest.models.Usuario;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,17 +30,17 @@ public class JwtService
 
   
   /**
-   * Método que permite crear un token a partir de la autenticación del cliente (login y password)
-   * @param cliente que contiene roles y el username(email)
+   * Método que permite crear un token a partir de la autenticación del usuario (login y password)
+   * @param usuario que contiene roles y el username(email)
    * @return Token
    */
-  public String generarToken(Cliente cliente) 
+  public String generarToken(Usuario usuario) 
   {
-    // Cliente cliente = (Cliente) authentication.getPrincipal();
-    Collection<? extends GrantedAuthority> authorities = cliente.getAuthorities();
+    // Usuario usuario = (Usuario) authentication.getPrincipal();
+    Collection<? extends GrantedAuthority> authorities = usuario.getAuthorities();
 
     return Jwts.builder()
-                        .setSubject(cliente.getUsername())
+                        .setSubject(usuario.getUsername())
                         .claim(AUTHORITIES, authorities)
                         .setIssuedAt(new Date())
                         // .setExpiration(new Date(System.currentTimeMillis() + 10000))

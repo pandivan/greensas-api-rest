@@ -1,13 +1,10 @@
 package com.ihc.apirest.controllers;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
 
-import com.ihc.apirest.models.Cliente;
-import com.ihc.apirest.service.ClienteService;
+import com.ihc.apirest.models.Usuario;
 import com.ihc.apirest.service.JwtService;
+import com.ihc.apirest.service.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,18 +18,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import sendinblue.ApiClient;
-import sendinblue.Configuration;
-import sendinblue.auth.ApiKeyAuth;
-import sibApi.TransactionalEmailsApi;
-import sibModel.CreateSmtpEmail;
-import sibModel.SendSmtpEmail;
-import sibModel.SendSmtpEmailTo;
 
 
 
@@ -44,7 +32,7 @@ import sibModel.SendSmtpEmailTo;
 public class AutenticacionRestController 
 {
   @Autowired
-  ClienteService clienteService;
+  UsuarioService usuarioService;
 
   @Autowired
   JwtService jwtService;
@@ -58,20 +46,23 @@ public class AutenticacionRestController
   SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
   
 
+
+
+
   /**
-   * Método que permite crear un nuevo cliente en BD
-   * @param cliente a crear
-   * @return Cliente creado
+   * Método que permite crear un nuevo usuario en BD
+   * @param usuario a crear
+   * @return Usuario creado
    */
   @PostMapping(value="/signup")
-  public ResponseEntity<String> signup(@RequestBody Cliente cliente)
+  public ResponseEntity<String> signup(@RequestBody Usuario usuario)
   {
     try 
     {
-      boolean isExistenteCliente = clienteService.existeClienteByEmail(cliente.getEmail());
+      boolean isExistenteUsuario = usuarioService.existeUsuarioByUserName(usuario.getUsername());
 
-      //Se valida que el email del cliente no este registrado en la plataforma
-      if(isExistenteCliente)
+      //Se valida que el userName del usuario no este registrado en la plataforma
+      if(isExistenteUsuario)
       {
         return new ResponseEntity<String>(HttpStatus.CREATED);
       }
@@ -95,12 +86,12 @@ public class AutenticacionRestController
         // usuario.setRoles(roles);
        **/
 
-      cliente.setPassword(bcrypt.encode(cliente.getPassword()));
+      usuario.setPassword(bcrypt.encode(usuario.getPassword()));
 
       //Este metodo creará un usuario en BD para la app de [mi-bario-app]
-      Cliente clienteBD = clienteService.registrarCliente(cliente);
+      Usuario usuarioBD = usuarioService.registrarUsuario(usuario);
       
-      String token = jwtService.generarToken(clienteBD);
+      String token = jwtService.generarToken(usuarioBD);
 
       return new ResponseEntity<String>(token, HttpStatus.OK);
     } 
@@ -113,24 +104,24 @@ public class AutenticacionRestController
 
 
   /**
-   * Método que permite validar un cliente según su email y password
-   * @param cliente que contiente el email y password a validar
-   * @return Cliente encontrado
+   * Método que permite validar un usuario según su userName y password
+   * @param usuario que contiente el userName y password a validar
+   * @return Usuario encontrado
    */
   @PostMapping(value = "/login")
-  public ResponseEntity<String> login(@RequestBody Cliente cliente) 
+  public ResponseEntity<String> login(@RequestBody Usuario usuario) 
   {
     try
     {
-      //El email es el username de la aplicacion
-      //Se valida autenticación por medio de email y password
-      Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(cliente.getEmail(), cliente.getPassword()));
+      //El userName es el username de la aplicacion
+      //Se valida autenticación por medio de userName y password
+      Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword()));
         
       SecurityContextHolder.getContext().setAuthentication(authentication);
       
-      Cliente clienteBD = (Cliente) authentication.getPrincipal();
+      Usuario usuarioBD = (Usuario) authentication.getPrincipal();
 
-      String token = jwtService.generarToken(clienteBD);
+      String token = jwtService.generarToken(usuarioBD);
 
       return new ResponseEntity<String>(token, HttpStatus.OK);
     }
@@ -162,62 +153,4 @@ public class AutenticacionRestController
       return new ResponseEntity<Boolean>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-
-
-
-  /**
-   * Método que permite restaurar temporalmente la password de un cliente en BD
-   * @param email
-   * @return
-   */
-  @PutMapping(value = "/restaurar")
-  public ResponseEntity<Boolean> restaurarPassword(@RequestBody String email)
-  {
-    try
-    {
-
-      // String passwordRandom = "1234";
-
-      // passwordRandom = bcrypt.encode(passwordRandom);
-
-      // clienteService.restaurarPassword(passwordRandom, email);
-
-      // String YOUR_DOMAIN_NAME = "sandboxa3bb8428392a4b859f2af588ec5feb87.mailgun.org";
-      String API_KEY = "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";
-
-      ApiClient apiClient = Configuration.getDefaultApiClient();
-        
-      // Configure API key authorization: api-key
-      ApiKeyAuth apiKey = (ApiKeyAuth) apiClient.getAuthentication("api-key");
-      apiKey.setApiKey(API_KEY);
-      
-      
-      List<SendSmtpEmailTo> toList = new ArrayList<SendSmtpEmailTo>();
-      SendSmtpEmailTo to = new SendSmtpEmailTo();
-      to.setEmail("pandivan@hotmail.com");
-      // to.setName("Rana"); quitarlo tambien de la plantilla
-      toList.add(to);
-    
-      Properties params = new Properties();
-      params.setProperty("ORDER", "000007");
-      params.setProperty("DATE", "19-03-2021");
-      
-      SendSmtpEmail sendSmtpEmail = new SendSmtpEmail();
-      sendSmtpEmail.setTo(toList);
-      sendSmtpEmail.setParams(params);
-      sendSmtpEmail.setTemplateId(1L);
-
-      TransactionalEmailsApi api = new TransactionalEmailsApi();
-      CreateSmtpEmail response = api.sendTransacEmail(sendSmtpEmail);
-
-      System.out.println(response.toString());
-      
-      return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-    }
-    catch (Exception e) 
-    {
-      return new ResponseEntity<Boolean>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
 }
-

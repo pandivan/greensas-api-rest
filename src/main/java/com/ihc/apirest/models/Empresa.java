@@ -12,17 +12,23 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Entity
 @Table(schema="domicilios")
-public class Barrio
+public class Empresa
 {
-  @Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idBarrio;
+	private Long idEmpresa;
 	private Long idGeografia;
+	private Integer idEstado;
+	private String nit;
 	private String nombre;
+	private String telefono;
+	private String direccion;
+	private String email;
 }

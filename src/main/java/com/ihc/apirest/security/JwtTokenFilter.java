@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ihc.apirest.service.JwtService;
-import com.ihc.apirest.service.UserDetailsServiceImpl;
+// import com.ihc.apirest.service.UserDetailsServiceImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,8 +29,8 @@ public class JwtTokenFilter extends OncePerRequestFilter
   @Autowired
   JwtService jwtService;
 
-  @Autowired
-  UserDetailsServiceImpl userDetailsService;
+  // @Autowired
+  // UserDetailsServiceImpl userDetailsService;
 
 
   @Override

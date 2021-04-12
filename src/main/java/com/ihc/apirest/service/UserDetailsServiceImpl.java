@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService 
 {
   @Autowired
-  private ClienteService clienteService;
+  private UsuarioService usuarioService;
 
 
 
@@ -19,6 +19,6 @@ public class UserDetailsServiceImpl implements UserDetailsService
   public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException 
   {
     //El correo es el username de la aplicacion
-    return clienteService.getClienteByEmail(userName);
+    return usuarioService.getUsuarioByUserName(userName);
   }
 }

@@ -2,8 +2,8 @@ package com.ihc.apirest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.ihc.apirest.models.Cliente;
-import com.ihc.apirest.repository.ClienteRepository;
+import com.ihc.apirest.models.Usuario;
+import com.ihc.apirest.repository.UsuarioRepository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,37 +14,33 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 class ApirestApplicationTests 
 {
 	@Autowired
-	ClienteRepository clienteRepository;
+	UsuarioRepository usuarioRepository;
 
 	@Autowired
 	BCryptPasswordEncoder bcrypt;
 
 	@Test
-	void registrarCliente() 
+	void registrarUsuario() 
 	{
-		Cliente cliente = new Cliente();
-		cliente.setCedula("1");
-		cliente.setNombre("1");
-		cliente.setEmail("1@1.com");
-		cliente.setPassword(bcrypt.encode("pandi"));
+		Usuario usuario = new Usuario();
+		usuario.setUserName("1@1.com");
+		usuario.setPassword(bcrypt.encode("pandi"));
 		
-		Cliente clienteBD = clienteRepository.save(cliente);
+		Usuario usuarioBD = usuarioRepository.save(usuario);
 		
-		assertTrue(clienteBD.getPassword().equalsIgnoreCase(cliente.getPassword()));
+		assertTrue(usuarioBD.getPassword().equalsIgnoreCase(usuario.getPassword()));
 	}
 
 
 	@Test
-	void validarCliente() 
+	void validarUsuario() 
 	{
-		Cliente cliente = new Cliente();
-		cliente.setCedula("1");
-		cliente.setNombre("1");
-		cliente.setEmail("1@1.com");
-		cliente.setPassword("pandi");
+		Usuario usuario = new Usuario();
+		usuario.setUserName("1@1.com");
+		usuario.setPassword("pandi");
 		
-		Cliente clienteBD = clienteRepository.findByEmail(cliente.getEmail());
+		Usuario usuarioBD = usuarioRepository.findByUserName(usuario.getUsername());
 		
-		assertTrue(bcrypt.matches(cliente.getPassword(), clienteBD.getPassword()));
+		assertTrue(bcrypt.matches(usuario.getPassword(), usuarioBD.getPassword()));
 	}
 }

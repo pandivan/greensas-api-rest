@@ -19,10 +19,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(schema="dimension")
+@Table(schema="domicilios")
 public class Aforo
 {
-    @Id
+  @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idAforo;
 	private Date fechaIngreso;

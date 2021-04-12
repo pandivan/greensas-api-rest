@@ -1,0 +1,217 @@
+package com.ihc.apirest.controllers;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import com.ihc.apirest.models.Usuario;
+import com.ihc.apirest.service.JwtService;
+import com.ihc.apirest.service.UsuarioService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import sendinblue.ApiClient;
+import sendinblue.Configuration;
+import sendinblue.auth.ApiKeyAuth;
+import sibApi.TransactionalEmailsApi;
+import sibModel.CreateSmtpEmail;
+import sibModel.SendSmtpEmail;
+import sibModel.SendSmtpEmailTo;
+
+
+
+
+
+@RestController
+@RequestMapping("/v1")
+@CrossOrigin("*")
+public class UsuarioRestController 
+{
+  @Autowired
+  UsuarioService usuarioService;
+
+  @Autowired
+  JwtService jwtService;
+
+  @Autowired
+  AuthenticationManager authenticationManager;
+
+  @Autowired
+  BCryptPasswordEncoder bcrypt;
+
+  SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+  
+
+
+
+  /**
+   * Método que permite actualizar los datos de acceso de un usuario en BD
+   * @param usuario actualizar
+   * @return true si el usuario fue actualizado, en caso contrario false
+   */
+  // @PreAuthorize("hasRole('ROLE_ACUATEX_CLIENTE')")
+  @PutMapping("/usuarios")
+  public ResponseEntity<Boolean> actualizarPasswordUsuario(@RequestHeader("Authorization") String headerAuthorization, @RequestBody Usuario usuario)
+  {
+    try 
+    {
+      String token = jwtService.getToken(headerAuthorization);
+      String userName = jwtService.getUserNameFromToken(token);
+
+      if(null != usuario.getNuevoPassword())
+      {
+        usuario.setPassword(bcrypt.encode(usuario.getNuevoPassword()));
+        usuario.setUserName(userName);
+        
+        usuarioService.actualizarPasswordUsuario(usuario);
+
+        //Se retorna el usuario con el nuevo token
+        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+      }
+
+      return new ResponseEntity<Boolean>(HttpStatus.NO_CONTENT);
+    } 
+    catch (Exception e) 
+    {
+      return new ResponseEntity<Boolean>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+
+
+  /**
+   * Método que permite actualizar los datos de acceso de un usuario en BD
+   * @param usuario actualizar
+   * @return Nuevo token si el usuario actualizó su username
+   */
+  // @PreAuthorize("hasRole('ROLE_ACUATEX_CLIENTE')")
+  @PutMapping("/usuarios/username")
+  public ResponseEntity<String> actualizarUserNameUsuario(@RequestHeader("Authorization") String headerAuthorization, @RequestBody Usuario usuario)
+  {
+    try
+    { 
+      String token = jwtService.getToken(headerAuthorization);
+      
+      String userName = jwtService.getUserNameFromToken(token);
+      
+      usuario.setUserName(userName);
+
+      if(null != usuario.getNuevoUserName())
+      {
+        if(usuarioService.existeUsuarioByUserName(usuario.getNuevoUserName()))
+        {
+          return new ResponseEntity<String>(HttpStatus.CREATED);
+        }
+        
+        usuarioService.actualizarUserNameUsuario(usuario);
+  
+        //Al actualizar el userName estamos cambiando el username de la aplicación, recordar que este username esta impreso en el token, es por eso que debemos genear un token nuevo
+        token = jwtService.generarToken(usuario);
+
+        //Se quitan datos sensibles del usuario por seguridad
+        usuario.setNuevoUserName(null);
+
+        //Se retorna el nuevo token
+        return new ResponseEntity<String>(token, HttpStatus.OK);
+      }
+
+      return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
+    } 
+    catch (Exception e) 
+    {
+      return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+
+
+  /**
+   * Método que permite obtener el email del usuario a partir del token
+   * @param headerAuthorization contiene el token
+   * @return Email del usuario
+   */
+  @GetMapping(value = "/usuarios/email")
+  public ResponseEntity<String> getEmailUsuario(@RequestHeader("Authorization") String headerAuthorization) 
+  {
+    try
+    {
+      String token = jwtService.getToken(headerAuthorization);
+      String email = jwtService.getUserNameFromToken(token);
+      
+      return new ResponseEntity<String>(email, HttpStatus.OK);
+    }
+    catch (Exception e) 
+    {
+      return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+
+
+  /**
+   * Método que permite restaurar temporalmente la password de un usuario en BD
+   * @param userName representa el usuario que contiene el email, al cual se enviarán las instrucciones para restaurar el password
+   * @return true envió el correo correctamente, en caso contrario false
+   */
+  @PutMapping(value = "/usuarios/restaurar")
+  public ResponseEntity<Boolean> restaurarPassword(@RequestBody String userName)
+  {
+    try
+    {
+      // String passwordRandom = "1234";
+
+      // passwordRandom = bcrypt.encode(passwordRandom);
+
+      // usuarioService.restaurarPassword(passwordRandom, userName);
+
+      // String YOUR_DOMAIN_NAME = "sandboxa3bb8428392a4b859f2af588ec5feb87.mailgun.org";
+      String API_KEY = "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";
+
+      ApiClient apiClient = Configuration.getDefaultApiClient();
+        
+      // Configure API key authorization: api-key
+      ApiKeyAuth apiKey = (ApiKeyAuth) apiClient.getAuthentication("api-key");
+      apiKey.setApiKey(API_KEY);
+      
+      
+      List<SendSmtpEmailTo> toList = new ArrayList<SendSmtpEmailTo>();
+      SendSmtpEmailTo to = new SendSmtpEmailTo();
+      to.setEmail("pandivan@hotmail.com");
+      // to.setName("Rana"); quitarlo tambien de la plantilla
+      toList.add(to);
+    
+      Properties params = new Properties();
+      params.setProperty("ORDER", "000007");
+      params.setProperty("DATE", "19-03-2021");
+      
+      SendSmtpEmail sendSmtpEmail = new SendSmtpEmail();
+      sendSmtpEmail.setTo(toList);
+      sendSmtpEmail.setParams(params);
+      sendSmtpEmail.setTemplateId(1L);
+
+      TransactionalEmailsApi api = new TransactionalEmailsApi();
+      CreateSmtpEmail response = api.sendTransacEmail(sendSmtpEmail);
+
+      System.out.println(response.toString());
+      
+      return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+    }
+    catch (Exception e) 
+    {
+      return new ResponseEntity<Boolean>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+}
+

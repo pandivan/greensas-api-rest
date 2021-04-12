@@ -22,21 +22,23 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(schema="dimension")
+@Table(schema="domicilios")
 public class ProductoPedido
 {
   @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idProductoPedido;
-	private int cantidad;
-	private Double valor;
-
-	@JoinColumn(name = "idProducto")
-  @ManyToOne(optional = false)
-	private Producto producto;
-
+	
 	@JoinColumn(name = "idPedido")
 	@ManyToOne(optional = false)
 	@JsonIgnore
   private Pedido pedido;
+	
+	@JoinColumn(name = "idProducto")
+	@ManyToOne(optional = false)
+	private Producto producto;
+
+	private int cantidad;
+	
+	private Double valor;
 }

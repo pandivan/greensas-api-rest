@@ -1,6 +1,5 @@
 package com.ihc.apirest.controllers;
 
-// import java.util.Formatter;
 import java.util.List;
 
 import com.ihc.apirest.models.Cliente;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-// import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -87,7 +85,7 @@ public class PedidoRestController
       if(null != idPedidoPendiente)
       {
         //Actualizando el estado del pedido con la tienda que lo tomó
-        pedidoService.actualizarPedido(pedido.getIdTienda(), ID_ESTADO_ACEPTADO, pedido.getIdPedido());
+        pedidoService.actualizarPedido(pedido.getIdSucursal(), ID_ESTADO_ACEPTADO, pedido.getIdPedido());
         isActualizado = true;
       }
       

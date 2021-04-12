@@ -16,7 +16,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(schema="dimension")
+@Table(schema="domicilios")
 public class Geografia 
 {
   @Id
