@@ -19,6 +19,13 @@ public class UserDetailsServiceImpl implements UserDetailsService
   public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException 
   {
     //El correo es el username de la aplicacion
-    return usuarioService.getUsuarioByUserName(userName);
+    UserDetails userDetails = usuarioService.getUsuarioByUserName(userName);
+
+    if (null == userDetails)
+    {
+      throw new UsernameNotFoundException("Usuario no registrado");
+    }
+
+    return userDetails;
   }
 }

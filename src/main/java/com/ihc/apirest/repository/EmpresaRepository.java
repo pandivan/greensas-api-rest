@@ -1,6 +1,6 @@
 package com.ihc.apirest.repository;
 
-import com.ihc.apirest.models.Cliente;
+import com.ihc.apirest.models.Empresa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface ClienteRepository extends JpaRepository<Cliente, String>
+public interface EmpresaRepository extends JpaRepository<Empresa, String>
 {
-    Cliente findById(Long id);
+    Empresa findById(Long id);
 }

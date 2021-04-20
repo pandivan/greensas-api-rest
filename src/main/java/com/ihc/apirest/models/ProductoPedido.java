@@ -31,7 +31,7 @@ public class ProductoPedido
 	
 	@JoinColumn(name = "idPedido")
 	@ManyToOne(optional = false)
-	@JsonIgnore
+	@JsonIgnore //Se ignora este atributo ya que internamente "Pedido" tiene un Listado de <ProductoPedido> y esto genera un ciclo infinito a la hora de cargar un objeto "Pedido" que no permite ser enviado como respuesta
   private Pedido pedido;
 	
 	@JoinColumn(name = "idProducto")
@@ -39,6 +39,5 @@ public class ProductoPedido
 	private Producto producto;
 
 	private int cantidad;
-	
 	private Double valor;
 }

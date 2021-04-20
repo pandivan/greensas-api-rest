@@ -2,6 +2,7 @@ package com.ihc.apirest.models;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,6 +29,8 @@ public class Cliente
 	private Long idCliente;
 	private Long idBarrio;
 	private Long idEstado;
+	@Column(name = "id_tiempo_fecha_creacion", updatable = false)
+	private Integer idTiempoFechaCreacion;
 	private String cedula;
 	private String nombre;
 	private String telefono;

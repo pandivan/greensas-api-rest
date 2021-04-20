@@ -25,7 +25,7 @@
 //     {
 //         // System.out.println("New WebSocket connection with id:::::: "+ session.getId() + " desde el cliente:: " + session.getRemoteAddress().getHostName() + " Websocket::: " + session.getUri().getPath());
 
-//         if("/tienda-websocket".equals(session.getUri().getPath()))
+//         if("/sucursal-websocket".equals(session.getUri().getPath()))
 //         {
 //             sesionesTiendas = Stream.concat(sesionesTiendas.stream(), Stream.of(session)).collect(Collectors.toSet());
 //         }
@@ -38,7 +38,7 @@
 //     @Override
 //     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) 
 //     {
-//         if("/tienda-websocket".equals(session.getUri().getPath()))
+//         if("/sucursal-websocket".equals(session.getUri().getPath()))
 //         {
 //             sesionesTiendas = sesionesTiendas.stream().filter(s -> !session.equals(s)).collect(Collectors.toSet());
 //         }

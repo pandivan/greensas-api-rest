@@ -41,7 +41,7 @@ public class PedidoRestController
   /**
    * Método que permite crear un nuevo pedido
    * @param pedido a crear
-   * @return True si el pedido fue creado, en caso contrario False
+   * @return true si el pedido fue creado, en caso contrario false
    */
   // @PreAuthorize("hasRole('ROLE_ACUATEX_CLIENTE')")
   @PostMapping(value="/pedidos")
@@ -79,12 +79,12 @@ public class PedidoRestController
     boolean isActualizado = false;
     try 
     {
-      //Validamos que el pedido siga pendiente y que ninguna tienda lo haya tomado antes
+      //Validamos que el pedido siga pendiente y que ninguna sucursal lo haya tomado antes
       Long idPedidoPendiente = pedidoService.getPedidosByIdPedidoAndIdEstado(pedido.getIdPedido(), ID_ESTADO_PENDIENTE);
 
       if(null != idPedidoPendiente)
       {
-        //Actualizando el estado del pedido con la tienda que lo tomó
+        //Actualizando el estado del pedido con la sucursal que lo tomó
         pedidoService.actualizarPedido(pedido.getIdSucursal(), ID_ESTADO_ACEPTADO, pedido.getIdPedido());
         isActualizado = true;
       }
@@ -102,7 +102,7 @@ public class PedidoRestController
   /**
    * Método que permite actualizar el estado de un pedido
    * @param pedido actualizar
-   * @return True si el pedido fue actualizado, en caso contrario False
+   * @return true si el pedido fue actualizado, en caso contrario false
    */
   // @PreAuthorize("hasRole('ROLE_ACUATEX_CLIENTE')")
   @PutMapping("/pedidos/estado")
@@ -145,15 +145,15 @@ public class PedidoRestController
 
 
   /**
-   * Método que permite obtener todos los pedidos aceptados por la tienda
+   * Método que permite obtener todos los pedidos aceptados por la sucursal
    * @return Listado de pedidos
    */
-  @GetMapping(value = "/pedidos/tienda/{idTienda}")
-  public ResponseEntity<List<Pedido>> getHistorialPedidosTienda(@PathVariable("idTienda") Long idTienda)
+  @GetMapping(value = "/pedidos/sucursal/{idSucursal}")
+  public ResponseEntity<List<Pedido>> getHistorialPedidosSucursal(@PathVariable("idSucursal") Long idSucursal)
   {
     try
     {
-      List<Pedido> lstPedidos = pedidoService.getHistorialPedidosTienda(idTienda, ID_ESTADO_ACEPTADO);
+      List<Pedido> lstPedidos = pedidoService.getHistorialPedidosSucursal(idSucursal, ID_ESTADO_ACEPTADO);
 
       return new ResponseEntity<List<Pedido>>(lstPedidos, HttpStatus.OK);
     }

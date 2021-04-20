@@ -1,5 +1,6 @@
 package com.ihc.apirest.models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -7,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,20 +23,20 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(schema = "hechos")
+@Table(schema = "domicilios")
 public class Pedido 
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idPedido;
 	private Long idSucursal;
-	private Long idCliente;
+	// private Long idCliente;
+	@JoinColumn(name = "idCliente")
+	@ManyToOne(optional = false)
+	private Cliente cliente;
 	private Long idEstado;
-
-	//Validar si realmente necesito en la app cargar el cliente de esta forma
-	// @JoinColumn(name = "idCliente")
-	// @ManyToOne(optional = false)
-	// private Cliente cliente;
+	private Date fechaPedido;
+	
 
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private List<ProductoPedido> lstProductosPedido;

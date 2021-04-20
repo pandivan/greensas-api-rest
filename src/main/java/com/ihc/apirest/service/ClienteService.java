@@ -19,13 +19,13 @@ public class ClienteService
 
   
   /**
-   * Método que permite obtener un cliente según su email
-   * @param email con el cual se buscara el cliente en BD
+   * Método que permite obtener un cliente según su Id
+   * @param idCliente con el cual se buscara el cliente en BD
    * @return Cliente encontrado
    */
-  public Cliente getClienteByEmail(String email) 
+  public Cliente getClienteById(Long idCliente) 
   {
-    return clienteRepository.findByEmail(email);
+    return clienteRepository.findById(idCliente);
   }
 
 
@@ -43,24 +43,16 @@ public class ClienteService
 
 
   /**
-   * Método que permite restaurar temporalmente la password de un cliente en BD
-   * @param cliente a restaurar password
-   * @return Cliente registrado
+   * Método que permite actualizar un cliente en BD
+   * @param cliente actualizar
+   * @return Cliente actualizado
    */
-  public Integer restaurarPassword(String password, String email)
+  public Cliente actualizarCliente(Cliente cliente) 
   {
-    return clienteRepository.restaurarPassword(password, email);
+    return clienteRepository.save(cliente);
   }
 
 
 
-  /**
-   * Método que permite validar si un email existe en bd
-   * @param email a valdiar
-   * @return true si existe el email, en caso contrario false
-   */
-  public boolean existeClienteByEmail(String email) 
-  {
-    return clienteRepository.existsByEmail(email);
-  }
+  
 }

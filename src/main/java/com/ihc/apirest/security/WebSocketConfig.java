@@ -51,7 +51,7 @@
 
 //     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) 
 //     {
-//         registry.addHandler(webSocketHandler, "/tienda-websocket").setAllowedOrigins("*");
+//         registry.addHandler(webSocketHandler, "/sucursal-websocket").setAllowedOrigins("*");
         
 //         registry.addHandler(webSocketHandler, "/cliente-websocket").setAllowedOrigins("*");
 //     }

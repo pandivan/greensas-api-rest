@@ -1,15 +1,14 @@
 package com.ihc.apirest.controllers;
 
-import com.ihc.apirest.models.Cliente;
+import com.ihc.apirest.models.Empresa;
 import com.ihc.apirest.models.Usuario;
-import com.ihc.apirest.service.ClienteService;
+import com.ihc.apirest.service.EmpresaService;
 import com.ihc.apirest.service.JwtService;
 import com.ihc.apirest.service.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,10 +25,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @RestController
 @RequestMapping("/v1")
 @CrossOrigin("*")
-public class ClienteRestController 
+public class EmpresaRestController 
 {
   @Autowired
-  ClienteService clienteService;
+  EmpresaService empresaService;
 
   @Autowired
   UsuarioService usuarioService;
@@ -38,20 +37,18 @@ public class ClienteRestController
   JwtService jwtService;
 
 
-
-
   /**
-   * Método que permite actualizar todos los datos de un cliente en BD
-   * @param cliente actualizar
-   * @return true si el cliente fue actualizado, en caso contrario false
+   * Método que permite regisgrar una empresa en BD
+   * @param empresa a registrar
+   * @return true si la empresa fue registrada, en caso contrario false
    */
   // @PreAuthorize("hasRole('ACUATEX_CLIENTE')")
-  @PostMapping("/clientes")
-  public ResponseEntity<Boolean> registrarCliente(@RequestBody Cliente cliente)
+  @PostMapping("/empresas")
+  public ResponseEntity<Boolean> registrarEmpresa(@RequestBody Empresa empresa)
   {
     try 
     {
-      clienteService.registrarCliente(cliente);
+      empresaService.registrarEmpresa(empresa);
 
       return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     } 
@@ -64,17 +61,17 @@ public class ClienteRestController
 
 
   /**
-   * Método que permite actualizar todos los datos de un cliente en BD
-   * @param cliente actualizar
-   * @return true si el cliente fue actualizado, en caso contrario false
+   * Método que permite actualizar unan empresa en BD
+   * @param empresa actualizar
+   * @return true si la empresa fue actualizada, en caso contrario false
    */
   // @PreAuthorize("hasRole('ACUATEX_CLIENTE')")
-  @PutMapping("/clientes")
-  public ResponseEntity<Boolean> actualizarCliente(@RequestBody Cliente cliente)
+  @PutMapping("/empresas")
+  public ResponseEntity<Boolean> actualizarEmpresa(@RequestBody Empresa empresa)
   {
     try 
     {
-      clienteService.actualizarCliente(cliente);
+      empresaService.actualizarEmpresa(empresa);
 
       return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     } 
@@ -87,12 +84,12 @@ public class ClienteRestController
 
 
   /**
-   * Método que permite obtener el cliente a partir del token
+   * Método que permite obtener la empresa a partir del token del usuario
    * @param token que contiene el username
-   * @return Cliente encontrado
+   * @return Empresa encontrada
    */
-  @GetMapping(value = "/clientes")
-  public ResponseEntity<Cliente> getCliente(@RequestHeader("Authorization") String headerAuthorization) 
+  @GetMapping(value = "/empresas")
+  public ResponseEntity<Empresa> getEmpresa(@RequestHeader("Authorization") String headerAuthorization) 
   {
     try
     {
@@ -101,16 +98,13 @@ public class ClienteRestController
 
       Usuario usuario = usuarioService.getUsuarioByUserName(userName);
 
-      Cliente cliente = clienteService.getClienteById(usuario.getIdEntidad());
-
-      //Se quitan datos sensibles del usuario por seguridad
-      // clienteBD.setPassword(null);
+      Empresa empresa = empresaService.getEmpresaById(usuario.getIdEntidad());
       
-      return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
+      return new ResponseEntity<Empresa>(empresa, HttpStatus.OK);
     }
     catch (Exception e) 
     {
-      return new ResponseEntity<Cliente>(HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<Empresa>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

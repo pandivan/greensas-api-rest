@@ -18,8 +18,8 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>
 {
 
   @Modifying
-  @Query("update Pedido p SET p.idTienda = ?1, p.idEstado = ?2 where p.idPedido = ?3")
-  void actualizarPedido(Long idTienda, Long idEstado, Long idPedido);
+  @Query("update Pedido p SET p.idSucursal = ?1, p.idEstado = ?2 where p.idPedido = ?3")
+  void actualizarPedido(Long idSucursal, Long idEstado, Long idPedido);
 
 
 
@@ -38,7 +38,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>
 
 
 
-  List<Pedido> findByIdTiendaAndIdEstado(Long idTienda, Long idEstado);
+  List<Pedido> findByIdSucursalAndIdEstado(Long idSucursal, Long idEstado);
 
   
 

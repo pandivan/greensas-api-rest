@@ -1,5 +1,6 @@
 package com.ihc.apirest.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,7 +27,9 @@ public class Sucursal
 	private Long idSucursal;
 	private Long idEmpresa;
 	private Long idGeografia;
-	private Integer idEstado;
+	private Long idEstado;
+	@Column(name = "id_tiempo_fecha_creacion", updatable = false)
+	private Integer idTiempoFechaCreacion;
 	private String nombre;
 	private String telefono;
 	private String direccion;

@@ -33,13 +33,13 @@ public class PedidoService
 
   /**
    * Método que permite actualizar una pedido
-   * @param idTienda Id de la tienda que tomo el pedido
+   * @param idSucursal Id de la sucursal que tomo el pedido
    * @param idEstado Id del estado Aceptado
    * @param idPedido Id del pedido
    */
-  public void actualizarPedido(Long idTienda, Long idEstado, Long idPedido)
+  public void actualizarPedido(Long idSucursal, Long idEstado, Long idPedido)
   {
-    pedidoRepository.actualizarPedido(idTienda, idEstado, idPedido);
+    pedidoRepository.actualizarPedido(idSucursal, idEstado, idPedido);
   }
 
 
@@ -81,14 +81,14 @@ public class PedidoService
 
 
   /**
-   * Método que permite obtener todos los pedidos de una tienda con estado "ACEPTADO"
-   * @param idTienda Id del tienda
+   * Método que permite obtener todos los pedidos de una sucursal con estado "ACEPTADO"
+   * @param idSucursal Id de la sucursal
    * @param idEstado Id del estado
    * @return Listado de pedidos aceptados
    */
-  public List<Pedido> getHistorialPedidosTienda(Long idTienda, Long idEstado)
+  public List<Pedido> getHistorialPedidosSucursal(Long idSucursal, Long idEstado)
   {
-    return pedidoRepository.findByIdTiendaAndIdEstado(idTienda, idEstado);
+    return pedidoRepository.findByIdSucursalAndIdEstado(idSucursal, idEstado);
   }
 
 

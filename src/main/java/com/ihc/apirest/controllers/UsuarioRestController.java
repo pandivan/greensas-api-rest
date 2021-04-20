@@ -57,9 +57,9 @@ public class UsuarioRestController
 
 
   /**
-   * Método que permite actualizar los datos de acceso de un usuario en BD
+   * Método que permite actualizar el password de un usuario en BD
    * @param usuario actualizar
-   * @return true si el usuario fue actualizado, en caso contrario false
+   * @return true si el password del usuario fue actualizado, en caso contrario false
    */
   // @PreAuthorize("hasRole('ROLE_ACUATEX_CLIENTE')")
   @PutMapping("/usuarios")
@@ -92,7 +92,7 @@ public class UsuarioRestController
 
 
   /**
-   * Método que permite actualizar los datos de acceso de un usuario en BD
+   * Método que permite actualizar el username del usuario y generar un nuevo token
    * @param usuario actualizar
    * @return Nuevo token si el usuario actualizó su username
    */
@@ -161,9 +161,9 @@ public class UsuarioRestController
 
 
   /**
-   * Método que permite restaurar temporalmente la password de un usuario en BD
+   * Método que permite restaurar el password de un usuario en BD
    * @param userName representa el usuario que contiene el email, al cual se enviarán las instrucciones para restaurar el password
-   * @return true envió el correo correctamente, en caso contrario false
+   * @return true si se envió el correo correctamente, en caso contrario false
    */
   @PutMapping(value = "/usuarios/restaurar")
   public ResponseEntity<Boolean> restaurarPassword(@RequestBody String userName)
