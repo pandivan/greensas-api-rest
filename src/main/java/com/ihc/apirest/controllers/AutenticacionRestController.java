@@ -2,9 +2,12 @@ package com.ihc.apirest.controllers;
 
 import java.text.SimpleDateFormat;
 
+import com.ihc.apirest.models.Cliente;
 import com.ihc.apirest.models.Usuario;
+import com.ihc.apirest.service.ClienteService;
 import com.ihc.apirest.service.JwtService;
 import com.ihc.apirest.service.UsuarioService;
+import com.ihc.apirest.utilidades.Constantes;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +36,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AutenticacionRestController 
 {
   @Autowired
+  ClienteService clienteService;
+  
+  @Autowired
   UsuarioService usuarioService;
 
   @Autowired
@@ -48,19 +54,18 @@ public class AutenticacionRestController
   
 
 
-
-
   /**
-   * Método que permite crear un nuevo usuario en BD
-   * @param usuario a crear
-   * @return Usuario creado
+   * Método que permite crear un nuevo cliente en BD
+   * @param cliente a crear
+   * @return Token si el registro fue exitosa, en caso contrario http status
    */
   @PostMapping(value="/signup")
-  public ResponseEntity<String> signup(@RequestBody Usuario usuario)
+  public ResponseEntity<String> signup(@RequestBody Cliente cliente)
   {
     try 
     {
-      boolean isExistenteUsuario = usuarioService.existeUsuarioByUserName(usuario.getUsername());
+      //El email del cliente es el username de la aplicación
+      boolean isExistenteUsuario = usuarioService.existeUsuarioByUserName(cliente.getEmail());
 
       //Se valida que el userName del usuario no este registrado en la plataforma
       if(isExistenteUsuario)
@@ -87,6 +92,13 @@ public class AutenticacionRestController
         // usuario.setRoles(roles);
        **/
 
+      Cliente clienteNuevo = clienteService.registrarCliente(cliente);
+
+      Usuario usuario = new Usuario();
+      usuario.setIdEntidad(clienteNuevo.getIdCliente());
+      usuario.setIdEstado(Constantes.ESTADO_ACTIVO);
+      usuario.setTipo(Constantes.TIPO_CLIENTE);
+      usuario.setUserName(cliente.getEmail());
       usuario.setPassword(bcrypt.encode(usuario.getPassword()));
 
       //Este metodo creará un usuario en BD para la app de [mi-bario-app]
@@ -107,7 +119,7 @@ public class AutenticacionRestController
   /**
    * Método que permite validar un usuario según su userName y password
    * @param usuario que contiente el userName y password a validar
-   * @return Usuario encontrado
+   * @return Token si la autenticación fue exitosa, en caso contrario http status
    */
   @PostMapping(value = "/login")
   public ResponseEntity<String> login(@RequestBody Usuario usuario) 

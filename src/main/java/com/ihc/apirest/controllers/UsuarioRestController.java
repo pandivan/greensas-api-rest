@@ -12,10 +12,10 @@ import com.ihc.apirest.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -46,13 +46,63 @@ public class UsuarioRestController
   JwtService jwtService;
 
   @Autowired
-  AuthenticationManager authenticationManager;
-
-  @Autowired
   BCryptPasswordEncoder bcrypt;
 
   SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
   
+
+
+
+  /**
+   * Método que permite crear un nuevo usuario en BD
+   * @param usuario a registrar
+   * @return true si el usuario fue registrado exitosamente, en caso contrario false
+   */
+  @PostMapping(value="/usuarios")
+  public ResponseEntity<Boolean> registrarUsuario(@RequestBody Usuario usuario)
+  {
+    try 
+    {
+      boolean isExistenteUsuario = usuarioService.existeUsuarioByUserName(usuario.getUsername());
+
+      //Se valida que el userName del usuario no este registrado en la plataforma
+      if(isExistenteUsuario)
+      {
+        return new ResponseEntity<Boolean>(false, HttpStatus.CREATED);
+      }
+
+      /**
+        Habilitar las siguientes lineas en el caso que se necesite registrar un usuario con ROLES...
+        
+
+        // Se crea un array o set de roles con el fin de agregar el nuevo rol que se asigno desde la web,
+        // Set<Rol> roles = new HashSet<>();
+
+        // Se crea al usuario con el ROL por defecto ROLE_USER
+        // roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
+          
+        // Se valida si el nuevo usuario tiene el rol ADMIN para agregarlo al Set<> de roles, de lo contrario se crea con el ROL por defecto ROLE_USER
+        // if(nuevoUsuario.getRoles().contains("admin"))
+        // {
+        //   roles.add(rolService.getByRolNombre(RolNombre.ROLE_ADMIN).get());
+        // }
+        
+        // usuario.setRoles(roles);
+       **/
+
+      usuario.setPassword(bcrypt.encode(usuario.getPassword()));
+
+      //Este metodo creará un usuario en BD para la app de [mi-bario-app]
+      usuarioService.registrarUsuario(usuario);
+
+      return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+    } 
+    catch (Exception e) 
+    {
+      return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
 
 
 
@@ -62,17 +112,18 @@ public class UsuarioRestController
    * @return true si el password del usuario fue actualizado, en caso contrario false
    */
   // @PreAuthorize("hasRole('ROLE_ACUATEX_CLIENTE')")
-  @PutMapping("/usuarios")
-  public ResponseEntity<Boolean> actualizarPasswordUsuario(@RequestHeader("Authorization") String headerAuthorization, @RequestBody Usuario usuario)
+  @PutMapping("/usuarios/passwords/{nuevoPassword}")
+  public ResponseEntity<Boolean> actualizarPasswordUsuario(@RequestHeader("Authorization") String headerAuthorization, @PathVariable String nuevoPassword)
   {
     try 
     {
       String token = jwtService.getToken(headerAuthorization);
       String userName = jwtService.getUserNameFromToken(token);
 
-      if(null != usuario.getNuevoPassword())
+      if(null != nuevoPassword)
       {
-        usuario.setPassword(bcrypt.encode(usuario.getNuevoPassword()));
+        Usuario usuario = new Usuario();
+        usuario.setPassword(bcrypt.encode(nuevoPassword));
         usuario.setUserName(userName);
         
         usuarioService.actualizarPasswordUsuario(usuario);
@@ -97,8 +148,8 @@ public class UsuarioRestController
    * @return Nuevo token si el usuario actualizó su username
    */
   // @PreAuthorize("hasRole('ROLE_ACUATEX_CLIENTE')")
-  @PutMapping("/usuarios/username")
-  public ResponseEntity<String> actualizarUserNameUsuario(@RequestHeader("Authorization") String headerAuthorization, @RequestBody Usuario usuario)
+  @PutMapping("/usuarios/usernames/{nuevoUserName}")
+  public ResponseEntity<String> actualizarUserNameUsuario(@RequestHeader("Authorization") String headerAuthorization, @PathVariable String nuevoUserName)
   {
     try
     { 
@@ -106,22 +157,22 @@ public class UsuarioRestController
       
       String userName = jwtService.getUserNameFromToken(token);
       
-      usuario.setUserName(userName);
 
-      if(null != usuario.getNuevoUserName())
+      if(null != nuevoUserName)
       {
-        if(usuarioService.existeUsuarioByUserName(usuario.getNuevoUserName()))
+        if(usuarioService.existeUsuarioByUserName(nuevoUserName))
         {
           return new ResponseEntity<String>(HttpStatus.CREATED);
         }
         
+        Usuario usuario = new Usuario();
+        usuario.setUserName(userName);
+        usuario.setNuevoUserName(nuevoUserName);
+
         usuarioService.actualizarUserNameUsuario(usuario);
   
         //Al actualizar el userName estamos cambiando el username de la aplicación, recordar que este username esta impreso en el token, es por eso que debemos genear un token nuevo
         token = jwtService.generarToken(usuario);
-
-        //Se quitan datos sensibles del usuario por seguridad
-        usuario.setNuevoUserName(null);
 
         //Se retorna el nuevo token
         return new ResponseEntity<String>(token, HttpStatus.OK);
@@ -137,26 +188,27 @@ public class UsuarioRestController
 
 
 
-  /**
-   * Método que permite obtener el email del usuario a partir del token
-   * @param headerAuthorization contiene el token
-   * @return Email del usuario
-   */
-  @GetMapping(value = "/usuarios/email")
-  public ResponseEntity<String> getEmailUsuario(@RequestHeader("Authorization") String headerAuthorization) 
-  {
-    try
-    {
-      String token = jwtService.getToken(headerAuthorization);
-      String email = jwtService.getUserNameFromToken(token);
+  // /**
+  //  * Método que permite obtener el email del usuario a partir del token
+  //  * @param headerAuthorization contiene el token
+  //  * @return Email del usuario
+  //  */
+  // @GetMapping(value = "/usuarios/emails")
+  // public ResponseEntity<String> getEmailUsuario(@RequestHeader("Authorization") String headerAuthorization) 
+  // {
+  //   try
+  //   {
+  //     String token = jwtService.getToken(headerAuthorization);
+  //     String email = jwtService.getUserNameFromToken(token);
       
-      return new ResponseEntity<String>(email, HttpStatus.OK);
-    }
-    catch (Exception e) 
-    {
-      return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
+  //     return new ResponseEntity<String>(email, HttpStatus.OK);
+  //   }
+  //   catch (Exception e) 
+  //   {
+  //     return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+  //   }
+  // }
+
 
 
 
@@ -165,8 +217,8 @@ public class UsuarioRestController
    * @param userName representa el usuario que contiene el email, al cual se enviarán las instrucciones para restaurar el password
    * @return true si se envió el correo correctamente, en caso contrario false
    */
-  @PutMapping(value = "/usuarios/restaurar")
-  public ResponseEntity<Boolean> restaurarPassword(@RequestBody String userName)
+  // @PutMapping(value = "/usuarios/{username}")
+  public ResponseEntity<Boolean> restaurarPassword(@PathVariable("username") String username)
   {
     try
     {

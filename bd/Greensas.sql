@@ -288,6 +288,11 @@ insert into domicilios.estado(id_estado, descripcion) values(104, 'INACTIVO');
 insert into domicilios.estado(id_estado, descripcion) values(105, 'DESPACHADO');
 
 
+INSERT INTO domicilios.empresa(id_geografia, id_estado, nit, nombre, telefono, direccion, email) values(1, 103, 'admin', 'admin', 'admin', 'admin', 'ivan.hernandez.coral@gmail.com');
+
+
+INSERT INTO domicilios.usuario(id_entidad, id_estado, username, "password", tipo) values(1, 103, 'admin', '$2a$10$gB8INonip0qlogoMpX6Ka.jbW6FdnmZQHPmV.t/csR1G5aIU3h85e', 'empresa');
+
 
 
 --insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(100, 101, 100, 'American', 'ean-Beef Grill', 'Beef Grill', 1, 24, 'http://tutofox.com/foodapp//categories/american.png', 'http://tutofox.com/foodapp//food/american/beef-grill.png', 103);
@@ -439,7 +444,10 @@ commit;
  *********************************************************************************************************************************/
 
 
---select * from domicilios.empresa;
+select * from domicilios.empresa;
+
+select * from domicilios.usuario u ;
+
 
 --select * from domicilios.geografia;
 --
@@ -454,6 +462,8 @@ commit;
 --select * from domicilios.producto;
 --
 --select * from domicilios.cliente order by 1 desc;
+
+select * from domicilios.pedido p ;
 
 --delete from domicilios.cliente;
 

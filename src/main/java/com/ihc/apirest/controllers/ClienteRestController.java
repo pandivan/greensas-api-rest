@@ -9,15 +9,13 @@ import com.ihc.apirest.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 
 
@@ -38,28 +36,6 @@ public class ClienteRestController
   JwtService jwtService;
 
 
-
-
-  /**
-   * Método que permite actualizar todos los datos de un cliente en BD
-   * @param cliente actualizar
-   * @return true si el cliente fue actualizado, en caso contrario false
-   */
-  // @PreAuthorize("hasRole('ACUATEX_CLIENTE')")
-  @PostMapping("/clientes")
-  public ResponseEntity<Boolean> registrarCliente(@RequestBody Cliente cliente)
-  {
-    try 
-    {
-      clienteService.registrarCliente(cliente);
-
-      return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-    } 
-    catch (Exception e) 
-    {
-      return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
 
 
 
@@ -102,9 +78,6 @@ public class ClienteRestController
       Usuario usuario = usuarioService.getUsuarioByUserName(userName);
 
       Cliente cliente = clienteService.getClienteById(usuario.getIdEntidad());
-
-      //Se quitan datos sensibles del usuario por seguridad
-      // clienteBD.setPassword(null);
       
       return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
     }
