@@ -22,7 +22,7 @@ public class UsuarioService
 
 
   /**
-   * Método que permite registrar un usuario en BD
+   * Método que permite registrar un usuario
    * @param usuario a registrar
    * @return Usuario registrado
    */
@@ -34,7 +34,19 @@ public class UsuarioService
 
 
   /**
-   * Método que permite actualizar el password del usuario en BD
+   * Método que permite actualizar todo el usuario
+   * @param usuario a actualizar
+   * @return Usuario actualizado
+   */
+  public Usuario actualizarUsuario(Usuario usuario) 
+  {
+    return usuarioRepository.save(usuario);
+  }
+  
+  
+  
+  /**
+   * Método que permite actualizar el password del usuario
    * @param usuario que contiene el password a actualizar
    * @return 1 si el password fue actualizado, en caso contrario 0
    */
@@ -45,7 +57,7 @@ public class UsuarioService
 
 
   /**
-   * Método que permite actualizar el userName del usuario en BD
+   * Método que permite actualizar el userName del usuario
    * @param usuario que contiene el userName a actualizar
    * @return 1 si el userName fue actualizado, en caso contrario 0
    */
@@ -57,7 +69,7 @@ public class UsuarioService
 
 
   /**
-   * Método que permite restaurar temporalmente la password de un usuario en BD
+   * Método que permite restaurar temporalmente la password de un usuario
    * @param usuario a restaurar password
    * @return Usuario registrado
    */
@@ -81,7 +93,7 @@ public class UsuarioService
 
   /**
    * Método que permite obtener un usuario según su userName
-   * @param userName con el cual se buscara el usuario en BD
+   * @param userName con el cual se buscara el usuario
    * @return Usuario encontrado
    */
   public Usuario getUsuarioByUserName(String userName) 
@@ -93,7 +105,7 @@ public class UsuarioService
 
   /**
    * Método que permite obtener un usuario según su id
-   * @param idUsuario con el cual se buscara el usuario en BD
+   * @param idUsuario con el cual se buscara el usuario
    * @return Usuario encontrado
    */
   public Usuario getUsuarioById(Long idUsuario) 

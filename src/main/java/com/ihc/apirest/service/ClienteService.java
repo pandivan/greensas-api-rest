@@ -20,7 +20,7 @@ public class ClienteService
   
   /**
    * Método que permite obtener un cliente según su Id
-   * @param idCliente con el cual se buscara el cliente en BD
+   * @param idCliente con el cual se buscara el cliente
    * @return Cliente encontrado
    */
   public Cliente getClienteById(Long idCliente) 
@@ -31,7 +31,7 @@ public class ClienteService
 
 
   /**
-   * Método que permite registrar un cliente en BD
+   * Método que permite registrar un cliente
    * @param cliente a registrar
    * @return Cliente registrado
    */
@@ -43,7 +43,7 @@ public class ClienteService
 
 
   /**
-   * Método que permite actualizar un cliente en BD
+   * Método que permite actualizar un cliente
    * @param cliente actualizar
    * @return Cliente actualizado
    */

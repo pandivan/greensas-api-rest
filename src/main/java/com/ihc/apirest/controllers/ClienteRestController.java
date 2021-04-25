@@ -41,7 +41,7 @@ public class ClienteRestController
 
 
   /**
-   * Método que permite actualizar todos los datos de un cliente en BD
+   * Método que permite actualizar todos los datos de un cliente
    * @param cliente actualizar
    * @return true si el cliente fue actualizado, en caso contrario false
    */

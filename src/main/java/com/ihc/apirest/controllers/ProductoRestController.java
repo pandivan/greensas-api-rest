@@ -30,7 +30,7 @@ public class ProductoRestController
 
   /**
    * Método que permite obtener un producto según su Id
-   * @param idProducto, Id Producto con el cual se buscara el producto en BD
+   * @param idProducto, Id Producto con el cual se buscara el producto
    * @return Producto encontrado
    */
   @GetMapping(value = "/productos")
@@ -92,7 +92,7 @@ public class ProductoRestController
     //este metodo que usa la manera tradicional unos a muchos categoria-->list productos
     // /**
     //  * Método que permite obtener un producto según su Id
-    //  * @param idProducto, Id Producto con el cual se buscara el producto en BD
+    //  * @param idProducto, Id Producto con el cual se buscara el producto
     //  * @return Producto encontrado
     //  */
     // @GetMapping(value = "/productos")

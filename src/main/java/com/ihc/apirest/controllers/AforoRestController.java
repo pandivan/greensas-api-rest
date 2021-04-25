@@ -23,7 +23,7 @@ public class AforoRestController
 
 
     /**
-     * Método que permite registra el ingreso de un cliente en BD
+     * Método que permite registra el ingreso de un cliente
      * @return Total clientes ingreso menos total clientes salida
      */
     @PostMapping(value="/ingreso")
@@ -52,7 +52,7 @@ public class AforoRestController
 
 
     /**
-     * Método que permite registra la salida de un cliente en BD
+     * Método que permite registra la salida de un cliente
      * @return Total clientes ingreso menos total clientes salida
      */
     @PostMapping(value="/salida")

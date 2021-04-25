@@ -41,6 +41,7 @@ public class Usuario implements UserDetails
 	private Long idUsuario;
 	private Long idEntidad;
 	private Long idEstado;
+	@Column(name = "user_name", updatable = false)
 	private String userName;
 	@Column(name = "password", updatable = false)
 	private String password;

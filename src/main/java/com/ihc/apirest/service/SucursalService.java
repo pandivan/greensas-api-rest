@@ -20,7 +20,7 @@ public class SucursalService
   
   /**
    * Método que permite obtener una sucursal según su Id
-   * @param idSucursal con el cual se buscara el sucursal en BD
+   * @param idSucursal con el cual se buscara el sucursal
    * @return Sucursal encontrado
    */
   public Sucursal getSucursalById(Long idSucursal) 
@@ -31,7 +31,7 @@ public class SucursalService
 
 
   /**
-   * Método que permite registrar una sucursal en BD
+   * Método que permite registrar una sucursal
    * @param sucursal a registrar
    * @return Sucursal registrada
    */
@@ -43,7 +43,7 @@ public class SucursalService
 
 
   /**
-   * Método que permite actualizar una sucursal en BD
+   * Método que permite actualizar una sucursal
    * @param sucursal actualizar
    * @return Sucursal actualizada
    */

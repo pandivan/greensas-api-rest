@@ -22,7 +22,7 @@ public class EmpresaService
   
   /**
    * Método que permite obtener una empresa según su Id
-   * @param idEmpresa con el cual se buscara el empresa en BD
+   * @param idEmpresa con el cual se buscara el empresa
    * @return Empresa encontrado
    */
   public Empresa getEmpresaById(Long idEmpresa) 
@@ -33,7 +33,7 @@ public class EmpresaService
 
 
   /**
-   * Método que permite registrar una empresa en BD
+   * Método que permite registrar una empresa
    * @param empresa a registrar
    * @return Empresa registrada
    */
@@ -45,7 +45,7 @@ public class EmpresaService
 
 
   /**
-   * Método que permite actualizar una empresa en BD
+   * Método que permite actualizar una empresa
    * @param empresa actualizar
    * @return Empresa actualizada
    */

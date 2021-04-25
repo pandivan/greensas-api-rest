@@ -58,7 +58,7 @@ public class AutenticacionRestController
 
   
   /**
-   * Método que permite crear un nuevo cliente en BD
+   * Método que permite crear un nuevo cliente
    * @param cliente a crear
    * @return Token si el registro fue exitosa, en caso contrario http status
    */

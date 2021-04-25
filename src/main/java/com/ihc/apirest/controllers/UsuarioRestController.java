@@ -56,7 +56,7 @@ public class UsuarioRestController
 
 
   /**
-   * Método que permite crear un nuevo usuario en BD
+   * Método que permite crear un nuevo usuario
    * @param usuario a registrar
    * @return true si el usuario fue registrado exitosamente, en caso contrario false
    */
@@ -94,7 +94,7 @@ public class UsuarioRestController
 
       usuario.setPassword(bcrypt.encode(usuario.getPassword()));
 
-      //Este metodo creará un usuario en BD para la app de [mi-bario-app]
+      //Este metodo creará un usuario para la app de [mi-bario-app]
       usuarioService.registrarUsuario(usuario);
 
       return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
@@ -112,7 +112,40 @@ public class UsuarioRestController
 
 
   /**
-   * Método que permite actualizar el password de un usuario en BD
+   * Método que permite actualizar el todo el usuario
+   * @param usuario actualizar
+   * @return true si el usuario fue actualizado, en caso contrario false
+   */
+  // @PreAuthorize("hasRole('ROLE_ACUATEX_CLIENTE')")
+  @PutMapping("/usuarios")
+  public ResponseEntity<Boolean> actualizarUsuario(@RequestBody Usuario usuario)
+  {
+    try 
+    { 
+      if(null != usuario.getIdUsuario())
+      {
+        usuarioService.actualizarUsuario(usuario);
+
+        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+      }
+
+      return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+    }
+    catch(DataIntegrityViolationException dive)
+    {
+      return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+    }
+    catch (Exception e) 
+    {
+      return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+
+
+  /**
+   * Método que permite actualizar el password de un usuario según su id
+   * @param idUsuario Id del usuario
    * @param nuevoPassword Nuevo password
    * @return true si el password del usuario fue actualizado, en caso contrario false
    */
@@ -130,7 +163,6 @@ public class UsuarioRestController
         
         usuarioService.actualizarPasswordUsuario(usuario);
 
-        //Se retorna el usuario con el nuevo token
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
       }
 
@@ -142,14 +174,15 @@ public class UsuarioRestController
     }
     catch (Exception e) 
     {
-      return new ResponseEntity<Boolean>(HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
 
 
   /**
-   * Método que permite actualizar el username del usuario y generar un nuevo token
+   * Método que permite actualizar el username del usuario según su id y generar un nuevo token
+   * @param idUsuario Id del usuario
    * @param nuevoUserName Username actualizar
    * @return Nuevo token si el usuario actualizó su username
    */
@@ -191,9 +224,8 @@ public class UsuarioRestController
 
 
   /**
-   * Método que permite obtener el usuario a partir del token
-   * @param token que contiene el username
-   * @return Usuario encontrado
+   * Método que permite obtener todos los usuarios
+   * @return Listado de usuarios
    */
   @GetMapping(value = "/usuarios")
   public ResponseEntity<List<Usuario>> getAllUsuarios() 
@@ -277,7 +309,7 @@ public class UsuarioRestController
 
 
   /**
-   * Método que permite restaurar el password de un usuario en BD
+   * Método que permite restaurar el password de un usuario
    * @param userName representa el usuario que contiene el email, al cual se enviarán las instrucciones para restaurar el password
    * @return true si se envió el correo correctamente, en caso contrario false
    */

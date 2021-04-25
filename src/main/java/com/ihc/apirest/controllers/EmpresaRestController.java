@@ -43,7 +43,7 @@ public class EmpresaRestController
 
 
   /**
-   * Método que permite regisgrar una empresa en BD
+   * Método que permite regisgrar una empresa
    * @param empresa a registrar
    * @return true si la empresa fue registrada, en caso contrario false
    */
@@ -89,7 +89,7 @@ public class EmpresaRestController
 
 
   /**
-   * Método que permite actualizar unan empresa en BD
+   * Método que permite actualizar unan empresa
    * @param empresa actualizar
    * @return true si la empresa fue actualizada, en caso contrario false
    */

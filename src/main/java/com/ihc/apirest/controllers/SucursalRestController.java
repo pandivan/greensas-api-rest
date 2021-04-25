@@ -39,7 +39,7 @@ public class SucursalRestController
 
 
   /**
-   * Método que permite regisgrar una sucursal en BD
+   * Método que permite regisgrar una sucursal
    * @param sucursal a registrar
    * @return true si la sucursal fue registrada, en caso contrario false
    */
@@ -66,7 +66,7 @@ public class SucursalRestController
 
 
   /**
-   * Método que permite actualizar unan sucursal en BD
+   * Método que permite actualizar unan sucursal
    * @param sucursal actualizar
    * @return true si la sucursal fue actualizada, en caso contrario false
    */

@@ -21,7 +21,7 @@ public class PedidoService
 
 
   /**
-   * Método que permite registrar un pedido nuevo en BD
+   * Método que permite registrar un pedido nuevo
    * @param pedido a registar
    * @return Pedido creado con su nuevo ID
    */
