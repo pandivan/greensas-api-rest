@@ -15,6 +15,7 @@ CREATE SCHEMA domicilios;
 --drop table domicilios.tiempo;
 --drop table domicilios.estado;
 --drop table domicilios.geografia;
+--drop table domicilios.usuario;
 --
 --drop SCHEMA domicilios;
 
@@ -87,8 +88,8 @@ id_tiempo_fecha_creacion integer DEFAULT cast(to_char(NOW()::timestamp, 'YYYYMMD
 nombre varchar(100) not null,
 telefono varchar(50) not null,
 direccion varchar(255) not null,
-horario_apertura varchar(4) null,
-horario_cierre varchar(4) null,
+horario_apertura varchar(8) null,
+horario_cierre varchar(8) null,
 primary key (id_sucursal)
 );
 
@@ -119,6 +120,7 @@ primary key (id_cliente)
 
 ALTER TABLE domicilios.cliente ADD CONSTRAINT cliente_barrio_fk FOREIGN KEY (id_barrio) REFERENCES domicilios.barrio (id_barrio);
 ALTER TABLE domicilios.cliente ADD CONSTRAINT cliente_estado_fk FOREIGN KEY (id_estado) REFERENCES domicilios.estado (id_estado);
+ALTER TABLE domicilios.cliente ADD CONSTRAINT cliente_email_uq UNIQUE (email);
 
 
 
@@ -129,14 +131,14 @@ id_usuario bigserial not null,
 id_entidad bigint not null,
 id_estado bigint not null,
 id_tiempo_fecha_creacion integer DEFAULT cast(to_char(NOW()::timestamp, 'YYYYMMDD') as integer) not null,
-username varchar(100) not null,
+user_name varchar(100) not null,
 password varchar(1000) not null,
 tipo varchar(10) not null,
 primary key (id_usuario)
 );
 
 ALTER TABLE domicilios.usuario ADD CONSTRAINT usuario_estado_fk FOREIGN KEY (id_estado) REFERENCES domicilios.estado (id_estado);
-
+ALTER TABLE domicilios.usuario ADD CONSTRAINT usuario_user_name_uq UNIQUE (user_name);
 
 
 
@@ -268,6 +270,10 @@ primary key (id_aforo)
 
 
 
+/******************************************************************************************
+ * ANTES DE CORRE LOS INSERT BASICOS DEBO IMPORTAR CSV DE TIEMPOS
+ *******************************************************************************************/
+
 
 SET timezone TO 'America/Bogota';
 
@@ -275,80 +281,103 @@ SET timezone TO 'America/Bogota';
 
 commit;
 
-insert into domicilios.geografia(id_pais,pais,departamento,ciudad) values('CO','Colombia','Valle del Cauca','Cali');
-insert into domicilios.geografia(id_pais,pais,departamento,ciudad) values('CO','Colombia','Nariño','Pasto');
+insert into domicilios.geografia(id_geografia,id_pais,pais,departamento,ciudad) values(1,'CO','Colombia','Valle del Cauca','Cali');
+insert into domicilios.geografia(id_geografia,id_pais,pais,departamento,ciudad) values(2,'CO','Colombia','Nariño','Pasto');
 
-insert into domicilios.barrio(id_geografia, nombre) values(1, 'Valle de Lili');
+commit;
 
-insert into domicilios.estado(id_estado, descripcion) values(100, 'PENDIENTE');
-insert into domicilios.estado(id_estado, descripcion) values(101, 'ACEPTADO');
-insert into domicilios.estado(id_estado, descripcion) values(102, 'CANCELADO');
-insert into domicilios.estado(id_estado, descripcion) values(103, 'ACTIVO');
-insert into domicilios.estado(id_estado, descripcion) values(104, 'INACTIVO');
-insert into domicilios.estado(id_estado, descripcion) values(105, 'DESPACHADO');
+insert into domicilios.barrio(id_barrio, id_geografia, nombre) values(1, 1, 'Barrio Admin');
+
+commit;
+
+insert into domicilios.estado(id_estado, descripcion) values(1, 'PENDIENTE');
+insert into domicilios.estado(id_estado, descripcion) values(2, 'ACEPTADO');
+insert into domicilios.estado(id_estado, descripcion) values(3, 'CANCELADO');
+insert into domicilios.estado(id_estado, descripcion) values(4, 'ACTIVO');
+insert into domicilios.estado(id_estado, descripcion) values(5, 'INACTIVO');
+insert into domicilios.estado(id_estado, descripcion) values(6, 'DESPACHADO');
+
+commit;
+
+INSERT INTO domicilios.empresa(id_empresa, id_geografia, id_estado, nit, nombre, telefono, direccion, email) values(1, 1, 4, 'nit admin', 'Empresa Admin', '7777777777', 'Direccion Admin', 'admin@gmail.com');
+
+commit;
+
+INSERT INTO domicilios.sucursal(id_sucursal, id_empresa, id_geografia, id_estado, nombre, telefono, direccion, horario_apertura, horario_cierre) VALUES(1, 1, 1, 4, 'Sucursal 1 Admin', '8888888888', 'Direccion Sucursal 1 Admin', '08:00 AM', '09:00 PM');
+
+INSERT INTO domicilios.sucursal(id_sucursal, id_empresa, id_geografia, id_estado, nombre, telefono, direccion, horario_apertura, horario_cierre) VALUES(2, 1, 1, 4, 'Sucursal 2 Admin', '9999999999', 'Direccion Sucursal 1 Admin', '08:00 AM', '09:00 PM');
+
+commit;
+
+INSERT INTO domicilios.usuario(id_usuario, id_entidad, id_estado, user_name, "password", tipo) values(1, 1, 4, 'admin', '$2a$10$gB8INonip0qlogoMpX6Ka.jbW6FdnmZQHPmV.t/csR1G5aIU3h85e', 'EMPRESA');
+
+commit;
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(100, 1, 'American', 'ean-Beef Grill', 'Beef Grill', 1, 24, 'http://tutofox.com/foodapp//categories/american.png', 'http://tutofox.com/foodapp//food/american/beef-grill.png', 4);
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(101, 1, 'American', 'ean-Chicken Picatta', 'Chicken Picatta', 1, 20, 'http://tutofox.com/foodapp//categories/american.png', 'http://tutofox.com/foodapp//food/american/chicken-piccata.png', 4);
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(102, 1, 'American', 'ean-Chicken Romesco', 'Chicken Romesco', 1, 21, 'http://tutofox.com/foodapp//categories/american.png', 'http://tutofox.com/foodapp//food/american/chicken-romesco.png', 4);
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(103, 1, 'American', 'ean-Chicken Grill', 'Chicken Grill', 1, 22, 'http://tutofox.com/foodapp//categories/american.png', 'http://tutofox.com/foodapp//food/american/chicken-grill.png', 4);
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(104, 1, 'American', 'ean-Salmon Grill', 'Salmon Grill', 1, 26, 'http://tutofox.com/foodapp//categories/american.png', 'http://tutofox.com/foodapp//food/american/salmon-grill.png', 4);
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(105, 1, 'American', 'ean-Salmon Romesco', 'Salmon Romesco', 1, 25, 'http://tutofox.com/foodapp//categories/american.png', 'http://tutofox.com/foodapp//food/american/salmon-romesco', 4);
 
 
-INSERT INTO domicilios.empresa(id_geografia, id_estado, nit, nombre, telefono, direccion, email) values(1, 103, 'admin', 'admin', 'admin', 'admin', 'ivan.hernandez.coral@gmail.com');
 
 
-INSERT INTO domicilios.usuario(id_entidad, id_estado, username, "password", tipo) values(1, 103, 'admin', '$2a$10$gB8INonip0qlogoMpX6Ka.jbW6FdnmZQHPmV.t/csR1G5aIU3h85e', 'empresa');
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(106, 1, 'Burger', 'ean-Burger Home', 'Burger Home', 1, 16, 'http://tutofox.com/foodapp//categories/burger.png', 'http://tutofox.com/foodapp//food/burger/burger-1.png', 4);
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(107, 1, 'Burger', 'ean-MegaBurger', 'MegaBurger', 1, 16, 'http://tutofox.com/foodapp//categories/burger.png', 'http://tutofox.com/foodapp//food/burger/burger-2.png', 4);
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(108, 1, 'Burger', 'ean-Burger Special', 'Burger Special', 1, 17, 'http://tutofox.com/foodapp//categories/burger.png', 'http://tutofox.com/foodapp//food/burger/burger-3.png', 4);
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(109, 1, 'Burger', 'ean-Burger Cheese', 'Burger Cheese', 1, 18, 'http://tutofox.com/foodapp//categories/burger.png', 'http://tutofox.com/foodapp//food/burger/burger-4.png', 4);
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(110, 1, 'Burger', 'ean-Burger Farmer', 'Burger Farmer', 1, 19, 'http://tutofox.com/foodapp//categories/burger.png', 'http://tutofox.com/foodapp//food/burger/burger-5.png', 4);
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(111, 1, 'Burger', 'ean-Mini Burger', 'Mini Burger', 1, 10, 'http://tutofox.com/foodapp//categories/burger.png', 'http://tutofox.com/foodapp//food/burger/burger-6.png', 4);
 
 
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(112, 1, 'Pizza', 'ean-Pizza Vegan', 'Pizza Vegan', 1, 14, 'http://tutofox.com/foodapp//categories/pizza.png', 'http://tutofox.com/foodapp//food/pizza/pizza-1.png', 4);
 
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(100, 101, 100, 'American', 'ean-Beef Grill', 'Beef Grill', 1, 24, 'http://tutofox.com/foodapp//categories/american.png', 'http://tutofox.com/foodapp//food/american/beef-grill.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(101, 101, 100, 'American', 'ean-Chicken Picatta', 'Chicken Picatta', 1, 20, 'http://tutofox.com/foodapp//categories/american.png', 'http://tutofox.com/foodapp//food/american/chicken-piccata.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(102, 101, 100, 'American', 'ean-Chicken Romesco', 'Chicken Romesco', 1, 21, 'http://tutofox.com/foodapp//categories/american.png', 'http://tutofox.com/foodapp//food/american/chicken-romesco.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(103, 101, 100, 'American', 'ean-Chicken Grill', 'Chicken Grill', 1, 22, 'http://tutofox.com/foodapp//categories/american.png', 'http://tutofox.com/foodapp//food/american/chicken-grill.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(104, 101, 100, 'American', 'ean-Salmon Grill', 'Salmon Grill', 1, 26, 'http://tutofox.com/foodapp//categories/american.png', 'http://tutofox.com/foodapp//food/american/salmon-grill.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(105, 101, 100, 'American', 'ean-Salmon Romesco', 'Salmon Romesco', 1, 25, 'http://tutofox.com/foodapp//categories/american.png', 'http://tutofox.com/foodapp//food/american/salmon-romesco', 103);
---
---
---
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(106, 101, 100, 'Burger', 'ean-Burger Home', 'Burger Home', 1, 16, 'http://tutofox.com/foodapp//categories/burger.png', 'http://tutofox.com/foodapp//food/burger/burger-1.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(107, 101, 100, 'Burger', 'ean-MegaBurger', 'MegaBurger', 1, 16, 'http://tutofox.com/foodapp//categories/burger.png', 'http://tutofox.com/foodapp//food/burger/burger-2.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(108, 101, 100, 'Burger', 'ean-Burger Special', 'Burger Special', 1, 17, 'http://tutofox.com/foodapp//categories/burger.png', 'http://tutofox.com/foodapp//food/burger/burger-3.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(109, 101, 100, 'Burger', 'ean-Burger Cheese', 'Burger Cheese', 1, 18, 'http://tutofox.com/foodapp//categories/burger.png', 'http://tutofox.com/foodapp//food/burger/burger-4.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(110, 101, 100, 'Burger', 'ean-Burger Farmer', 'Burger Farmer', 1, 19, 'http://tutofox.com/foodapp//categories/burger.png', 'http://tutofox.com/foodapp//food/burger/burger-5.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(111, 101, 100, 'Burger', 'ean-Mini Burger', 'Mini Burger', 1, 10, 'http://tutofox.com/foodapp//categories/burger.png', 'http://tutofox.com/foodapp//food/burger/burger-6.png', 103);
---
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(112, 101, 100, 'Pizza', 'ean-Pizza Vegan', 'Pizza Vegan', 1, 14, 'http://tutofox.com/foodapp//categories/pizza.png', 'http://tutofox.com/foodapp//food/pizza/pizza-1.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(113, 101, 100, 'Pizza', 'ean-Pizza Bufalisimo', 'Pizza Bufalisimo', 1, 15, 'http://tutofox.com/foodapp//categories/pizza.png', 'http://tutofox.com/foodapp//food/pizza/pizza-2.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(114, 101, 100, 'Pizza', 'ean-Pizza Haiwaiana', 'Pizza Haiwaiana', 1, 16, 'http://tutofox.com/foodapp//categories/pizza.png', 'http://tutofox.com/foodapp//food/pizza/pizza-3.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(115, 101, 100, 'Pizza', 'ean-Pizza Peperoni', 'Pizza Peperoni', 1, 17, 'http://tutofox.com/foodapp//categories/pizza.png', 'http://tutofox.com/foodapp//food/pizza/pizza-4.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(116, 101, 100, 'Pizza', 'ean-Pizza Vegan 2', 'Pizza Vegan 2', 1, 33, 'http://tutofox.com/foodapp//categories/pizza.png', 'http://tutofox.com/foodapp//food/pizza/pizza-5.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(117, 101, 100, 'Pizza', 'ean-Pizza Napolitana', 'Pizza Napolitana', 1, 30, 'http://tutofox.com/foodapp//categories/pizza.png', 'http://tutofox.com/foodapp//food/pizza/pizza-6.png', 103);
---
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(118, 101, 100, 'Drink', 'ean-Coca cola', 'Coca cola', 1, 30, 'http://tutofox.com/foodapp//categories/drink.png', 'http://tutofox.com/foodapp//food/drink/cocacola.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(119, 101, 100, 'Drink', 'ean-Pepsi', 'Pepsi', 1, 30, 'http://tutofox.com/foodapp//categories/drink.png', 'http://tutofox.com/foodapp//food/drink/pepsi.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(120, 101, 100, 'Drink', 'ean-Quatro', 'Quatro', 1, 30, 'http://tutofox.com/foodapp//categories/drink.png', 'http://tutofox.com/foodapp//food/drink/quatro.png', 103);
---
---insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(121, 101, 100, 'Drink', 'ean-Sprite', 'Sprite', 1, 30, 'http://tutofox.com/foodapp//categories/drink.png', 'http://tutofox.com/foodapp//food/drink/sprite.png', 103);
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(113, 1, 'Pizza', 'ean-Pizza Bufalisimo', 'Pizza Bufalisimo', 1, 15, 'http://tutofox.com/foodapp//categories/pizza.png', 'http://tutofox.com/foodapp//food/pizza/pizza-2.png', 4);
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(114, 1, 'Pizza', 'ean-Pizza Haiwaiana', 'Pizza Haiwaiana', 1, 16, 'http://tutofox.com/foodapp//categories/pizza.png', 'http://tutofox.com/foodapp//food/pizza/pizza-3.png', 4);
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(115, 1, 'Pizza', 'ean-Pizza Peperoni', 'Pizza Peperoni', 1, 17, 'http://tutofox.com/foodapp//categories/pizza.png', 'http://tutofox.com/foodapp//food/pizza/pizza-4.png', 4);
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(116, 1, 'Pizza', 'ean-Pizza Vegan 2', 'Pizza Vegan 2', 1, 33, 'http://tutofox.com/foodapp//categories/pizza.png', 'http://tutofox.com/foodapp//food/pizza/pizza-5.png', 4);
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(117, 1, 'Pizza', 'ean-Pizza Napolitana', 'Pizza Napolitana', 1, 30, 'http://tutofox.com/foodapp//categories/pizza.png', 'http://tutofox.com/foodapp//food/pizza/pizza-6.png', 4);
+
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(118, 1, 'Drink', 'ean-Coca cola', 'Coca cola', 1, 30, 'http://tutofox.com/foodapp//categories/drink.png', 'http://tutofox.com/foodapp//food/drink/cocacola.png', 4);
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(119, 1, 'Drink', 'ean-Pepsi', 'Pepsi', 1, 30, 'http://tutofox.com/foodapp//categories/drink.png', 'http://tutofox.com/foodapp//food/drink/pepsi.png', 4);
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(120, 1, 'Drink', 'ean-Quatro', 'Quatro', 1, 30, 'http://tutofox.com/foodapp//categories/drink.png', 'http://tutofox.com/foodapp//food/drink/quatro.png', 4);
+
+insert into domicilios.producto(id_producto, id_empresa, categoria_nivel1, ean, nombre, nivel, valor, url_imagen_categoria, url_imagen_producto, id_estado) values(121, 1, 'Drink', 'ean-Sprite', 'Sprite', 1, 30, 'http://tutofox.com/foodapp//categories/drink.png', 'http://tutofox.com/foodapp//food/drink/sprite.png', 4);
 
 
 --insert into domicilios.aforo(fecha_ingreso) values(TIMESTAMP '2011-05-16 15:36:38');
 --insert into domicilios.aforo(fecha_salida) values(TIMESTAMP '2011-05-16 16:36:38');
 
 commit;
+
+ALTER SEQUENCE domicilios.empresa_id_empresa_seq RESTART WITH 100;
+ALTER SEQUENCE domicilios.barrio_id_barrio_seq RESTART WITH 100;
+ALTER SEQUENCE domicilios.sucursal_id_sucursal_seq RESTART WITH 100;
+ALTER SEQUENCE domicilios.cliente_id_cliente_seq RESTART WITH 100;
+ALTER SEQUENCE domicilios.usuario_id_usuario_seq RESTART WITH 100;
+--ALTER SEQUENCE producto_id_producto_seq RESTART WITH 100;
+ALTER SEQUENCE domicilios.pedido_id_pedido_seq RESTART WITH 100;
+ALTER SEQUENCE domicilios.producto_pedido_id_producto_pedido_seq RESTART WITH 100;
+
+
 
 
 
@@ -446,28 +475,34 @@ commit;
 
 select * from domicilios.empresa;
 
+select * from domicilios.sucursal;
+
+
+select * from domicilios.geografia;
+
+--select * from domicilios.tiempo;
+
+select * from domicilios.barrio;
+
+select * from domicilios.estado;
+
+
+select * from domicilios.cliente order by 1 desc;
+
 select * from domicilios.usuario u ;
 
 
---select * from domicilios.geografia;
---
---select * from domicilios.tiempo;
+truncate table domicilios.usuario;
+delete from domicilios.cliente;
 
---delete from domicilios.tiempo;
---
---select * from domicilios.barrio;
---
---select * from domicilios.estado;
---
---select * from domicilios.producto;
---
---select * from domicilios.cliente order by 1 desc;
+
+select * from domicilios.producto;
 
 select * from domicilios.pedido p ;
 
---delete from domicilios.cliente;
+select * from domicilios.producto_pedido pp ;
 
-
+--eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjczMDc5LCJleHAiOjE2MTkzMDkwNzl9.8Lhsd0hUqX0J3Rl3rhmkyWRcg_mgOh89dD0EskaE0qfj-8KsfIa5vwMEoyYaOr-wB_OHhXZUerfOZWYB-nlXCg
 
 
 --select  * from domicilios.aforo 
@@ -499,3 +534,4 @@ select * from domicilios.pedido p ;
 ----and p.id_tienda is null
 ----and p.id_pedido = 14
 --;
+

@@ -7,6 +7,7 @@ import com.ihc.apirest.service.JwtService;
 import com.ihc.apirest.service.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -53,7 +54,11 @@ public class ClienteRestController
       clienteService.actualizarCliente(cliente);
 
       return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-    } 
+    }
+    catch(DataIntegrityViolationException dive)
+    {
+      return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+    }
     catch (Exception e) 
     {
       return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -77,9 +82,17 @@ public class ClienteRestController
 
       Usuario usuario = usuarioService.getUsuarioByUserName(userName);
 
-      Cliente cliente = clienteService.getClienteById(usuario.getIdEntidad());
+      if(null != usuario)
+      {
+        Cliente cliente = clienteService.getClienteById(usuario.getIdEntidad());
+        
+        if(null != cliente)
+        {
+          return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
+        }
+      }
       
-      return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
+      return new ResponseEntity<Cliente>(HttpStatus.NO_CONTENT);
     }
     catch (Exception e) 
     {

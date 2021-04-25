@@ -19,7 +19,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>
 
   @Modifying
   @Query("update Pedido p SET p.idSucursal = ?1, p.idEstado = ?2 where p.idPedido = ?3")
-  void actualizarPedido(Long idSucursal, Long idEstado, Long idPedido);
+  void aceptarPedido(Long idSucursal, Long idEstado, Long idPedido);
 
 
 

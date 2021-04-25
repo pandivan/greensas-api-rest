@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SucursalRepository extends JpaRepository<Sucursal, String>
 {
-    Sucursal findById(Long id);
+    Sucursal findByIdSucursal(Long idSucursal);
 }

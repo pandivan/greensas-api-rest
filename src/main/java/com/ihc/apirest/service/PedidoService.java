@@ -37,20 +37,21 @@ public class PedidoService
    * @param idEstado Id del estado Aceptado
    * @param idPedido Id del pedido
    */
-  public void actualizarPedido(Long idSucursal, Long idEstado, Long idPedido)
+  public void aceptarPedido(Long idSucursal, Long idEstado, Long idPedido)
   {
-    pedidoRepository.actualizarPedido(idSucursal, idEstado, idPedido);
+    pedidoRepository.aceptarPedido(idSucursal, idEstado, idPedido);
   }
 
 
 
   /**
    * Método que permite actualizar el estado de un pedido
-   * @param pedido que contiene el estado
+   * @param idEstado Id el estado
+   * @param idPedido Id del pedido
    */
-  public void actualizarEstadoPedido(Pedido pedido)
+  public void actualizarEstadoPedido(Long idEstado, Long idPedido)
   {
-    pedidoRepository.actualizarEstadoPedido(pedido.getIdEstado(), pedido.getIdPedido());
+    pedidoRepository.actualizarEstadoPedido(idEstado, idPedido);
   }
 
 
@@ -61,7 +62,7 @@ public class PedidoService
    * @param idPedido Id del pedido
    * @return Pedido
    */
-  public Long getPedidosByIdPedidoAndIdEstado(Long idPedido, Long idEstado)
+  public Long getPedidoByIdPedidoAndIdEstado(Long idPedido, Long idEstado)
   {
     return pedidoRepository.findByIdPedidoAndIdEstado(idPedido, idEstado);
   }

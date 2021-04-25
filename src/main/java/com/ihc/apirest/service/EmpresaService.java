@@ -25,7 +25,7 @@ public class EmpresaService
    */
   public Empresa getEmpresaById(Long idEmpresa) 
   {
-    return empresaRepository.findById(idEmpresa);
+    return empresaRepository.findByIdEmpresa(idEmpresa);
   }
 
 
@@ -50,5 +50,17 @@ public class EmpresaService
   public Empresa actualizarEmpresa(Empresa empresa) 
   {
     return empresaRepository.save(empresa);
+  }
+
+
+
+  /**
+   * Método que permite validar si la empresa existe en bd
+   * @param nit a valdiar
+   * @return true si existe la empresa, en caso contrario false
+   */
+  public boolean existeEmpresaByNit(String nit) 
+  {
+    return empresaRepository.existsByNit(nit);
   }
 }

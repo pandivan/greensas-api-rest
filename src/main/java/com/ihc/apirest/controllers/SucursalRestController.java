@@ -7,6 +7,7 @@ import com.ihc.apirest.service.JwtService;
 import com.ihc.apirest.service.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -50,8 +51,12 @@ public class SucursalRestController
     {
       sucursalService.registrarSucursal(sucursal);
 
-      return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-    } 
+      return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
+    }
+    catch(DataIntegrityViolationException dive)
+    {
+      return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+    }
     catch (Exception e) 
     {
       return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -74,7 +79,11 @@ public class SucursalRestController
       sucursalService.actualizarSucursal(sucursal);
 
       return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-    } 
+    }
+    catch(DataIntegrityViolationException dive)
+    {
+      return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+    }
     catch (Exception e) 
     {
       return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -98,9 +107,17 @@ public class SucursalRestController
 
       Usuario usuario = usuarioService.getUsuarioByUserName(userName);
 
-      Sucursal sucursal = sucursalService.getSucursalById(usuario.getIdEntidad());
-      
-      return new ResponseEntity<Sucursal>(sucursal, HttpStatus.OK);
+      if(null != usuario)
+      {
+        Sucursal sucursal = sucursalService.getSucursalById(usuario.getIdEntidad());
+        
+        if(null != sucursal)
+        {
+          return new ResponseEntity<Sucursal>(sucursal, HttpStatus.OK);
+        }
+      }
+
+      return new ResponseEntity<Sucursal>(HttpStatus.NO_CONTENT);
     }
     catch (Exception e) 
     {

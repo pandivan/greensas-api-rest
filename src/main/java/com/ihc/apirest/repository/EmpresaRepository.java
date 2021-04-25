@@ -10,5 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EmpresaRepository extends JpaRepository<Empresa, String>
 {
-    Empresa findById(Long id);
+    Empresa findByIdEmpresa(Long idEmpresa);
+
+    boolean existsByNit(String nit);
 }

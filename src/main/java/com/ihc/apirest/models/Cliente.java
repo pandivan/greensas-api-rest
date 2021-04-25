@@ -2,12 +2,12 @@ package com.ihc.apirest.models;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,8 +29,6 @@ public class Cliente
 	private Long idCliente;
 	private Long idBarrio;
 	private Long idEstado;
-	@Column(name = "id_tiempo_fecha_creacion", updatable = false)
-	private Integer idTiempoFechaCreacion;
 	private String cedula;
 	private String nombre;
 	private String telefono;
@@ -41,6 +39,8 @@ public class Cliente
 	private Date fechaNacimiento;
 	private String sexo;
 	
+	@Transient
+	private String password;
 
 
 	public Cliente(Long idCliente) 

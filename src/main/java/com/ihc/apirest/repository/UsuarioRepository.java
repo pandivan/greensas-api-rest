@@ -28,9 +28,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String>
     Integer restaurarPassword(String password, String userName);
 
 
-    //boolean existsByCedulaAndPassword(String cedula, String password);
-
-
     boolean existsByUserName(String userName);
 
 

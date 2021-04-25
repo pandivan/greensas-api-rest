@@ -1,6 +1,5 @@
 package com.ihc.apirest.models;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,12 +31,10 @@ public class Sucursal
 	// private Long idEmpresa;
 	@JoinColumn(name = "idEmpresa")
 	@ManyToOne(optional = false)
-	@JsonIgnore //Se ignora este atributo ya que internamente "Pedido" tiene un Listado de <ProductoPedido> y esto genera un ciclo infinito a la hora de cargar un objeto "Pedido" que no permite ser enviado como respuesta
+	@JsonIgnore //Se ignora este atributo ya que internamente "Pedido" tiene un Listado de <ProductoPedido> y esto genera un ciclo infinito en javascript a la hora de cargar un objeto "Pedido" que no permite ser enviado como respuesta
   private Empresa empresa;
 	private Long idGeografia;
 	private Long idEstado;
-	@Column(name = "id_tiempo_fecha_creacion", updatable = false)
-	private Integer idTiempoFechaCreacion;
 	private String nombre;
 	private String telefono;
 	private String direccion;

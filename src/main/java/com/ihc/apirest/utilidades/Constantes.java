@@ -5,12 +5,12 @@ public class Constantes
   /**
    * Constantes para el manejo de estados
    */
-  public static final long ESTADO_PENDIENTE = 100;
-  public static final long ESTADO_ACEPTADO = 101;
-  public static final long ESTADO_CANCELADO = 102;
-  public static final long ESTADO_ACTIVO = 103;
-  public static final long ESTADO_INACTIVO = 105;
-  public static final long ESTADO_DESPACHADO = 105;
+  public static final long ESTADO_PENDIENTE = 1;
+  public static final long ESTADO_ACEPTADO = 2;
+  public static final long ESTADO_CANCELADO = 3;
+  public static final long ESTADO_ACTIVO = 4;
+  public static final long ESTADO_INACTIVO = 5;
+  public static final long ESTADO_DESPACHADO = 6;
 
 
   /**

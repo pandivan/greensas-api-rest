@@ -41,8 +41,8 @@ public class Usuario implements UserDetails
 	private Long idUsuario;
 	private Long idEntidad;
 	private Long idEstado;
-	@Column(name = "id_tiempo_fecha_creacion", updatable = false)
-	private Integer idTiempoFechaCreacion;
+	// @Column(name = "id_tiempo_fecha_creacion", updatable = false)
+	// private Integer idTiempoFechaCreacion;
 	private String userName;
 	@Column(name = "password", updatable = false)
 	private String password;

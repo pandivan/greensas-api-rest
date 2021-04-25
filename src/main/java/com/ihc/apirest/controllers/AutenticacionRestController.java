@@ -10,6 +10,7 @@ import com.ihc.apirest.service.UsuarioService;
 import com.ihc.apirest.utilidades.Constantes;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -70,7 +71,7 @@ public class AutenticacionRestController
       //Se valida que el userName del usuario no este registrado en la plataforma
       if(isExistenteUsuario)
       {
-        return new ResponseEntity<String>(HttpStatus.CREATED);
+        return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
       }
 
       /**
@@ -92,6 +93,7 @@ public class AutenticacionRestController
         // usuario.setRoles(roles);
        **/
 
+      cliente.setIdEstado(Constantes.ESTADO_ACTIVO);
       Cliente clienteNuevo = clienteService.registrarCliente(cliente);
 
       Usuario usuario = new Usuario();
@@ -99,15 +101,19 @@ public class AutenticacionRestController
       usuario.setIdEstado(Constantes.ESTADO_ACTIVO);
       usuario.setTipo(Constantes.TIPO_CLIENTE);
       usuario.setUserName(cliente.getEmail());
-      usuario.setPassword(bcrypt.encode(usuario.getPassword()));
+      usuario.setPassword(bcrypt.encode(cliente.getPassword()));
 
       //Este metodo creará un usuario en BD para la app de [mi-bario-app]
       Usuario usuarioBD = usuarioService.registrarUsuario(usuario);
       
       String token = jwtService.generarToken(usuarioBD);
 
-      return new ResponseEntity<String>(token, HttpStatus.OK);
-    } 
+      return new ResponseEntity<String>(token, HttpStatus.CREATED);
+    }
+    catch(DataIntegrityViolationException dive)
+    {
+      return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+    }
     catch (Exception e) 
     {
       return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -140,7 +146,7 @@ public class AutenticacionRestController
     }
     catch (BadCredentialsException | UsernameNotFoundException bce) 
     {
-      return new ResponseEntity<String>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+      return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
     }
     catch (Exception e) 
     {
@@ -163,7 +169,7 @@ public class AutenticacionRestController
     }
     catch (Exception e) 
     {
-      return new ResponseEntity<Boolean>(HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

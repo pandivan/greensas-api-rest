@@ -10,6 +10,7 @@ import com.ihc.apirest.service.JwtService;
 import com.ihc.apirest.service.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -68,7 +69,7 @@ public class UsuarioRestController
       //Se valida que el userName del usuario no este registrado en la plataforma
       if(isExistenteUsuario)
       {
-        return new ResponseEntity<Boolean>(false, HttpStatus.CREATED);
+        return new ResponseEntity<Boolean>(false, HttpStatus.OK);
       }
 
       /**
@@ -95,8 +96,12 @@ public class UsuarioRestController
       //Este metodo creará un usuario en BD para la app de [mi-bario-app]
       usuarioService.registrarUsuario(usuario);
 
-      return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-    } 
+      return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
+    }
+    catch(DataIntegrityViolationException dive)
+    {
+      return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+    }
     catch (Exception e) 
     {
       return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -108,7 +113,7 @@ public class UsuarioRestController
 
   /**
    * Método que permite actualizar el password de un usuario en BD
-   * @param usuario actualizar
+   * @param nuevoPassword Nuevo password
    * @return true si el password del usuario fue actualizado, en caso contrario false
    */
   // @PreAuthorize("hasRole('ROLE_ACUATEX_CLIENTE')")
@@ -132,8 +137,12 @@ public class UsuarioRestController
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
       }
 
-      return new ResponseEntity<Boolean>(HttpStatus.NO_CONTENT);
-    } 
+      return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+    }
+    catch(DataIntegrityViolationException dive)
+    {
+      return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+    }
     catch (Exception e) 
     {
       return new ResponseEntity<Boolean>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -144,7 +153,7 @@ public class UsuarioRestController
 
   /**
    * Método que permite actualizar el username del usuario y generar un nuevo token
-   * @param usuario actualizar
+   * @param nuevoUserName Username actualizar
    * @return Nuevo token si el usuario actualizó su username
    */
   // @PreAuthorize("hasRole('ROLE_ACUATEX_CLIENTE')")
@@ -158,57 +167,32 @@ public class UsuarioRestController
       String userName = jwtService.getUserNameFromToken(token);
       
 
-      if(null != nuevoUserName)
+      if(usuarioService.existeUsuarioByUserName(nuevoUserName))
       {
-        if(usuarioService.existeUsuarioByUserName(nuevoUserName))
-        {
-          return new ResponseEntity<String>(HttpStatus.CREATED);
-        }
-        
-        Usuario usuario = new Usuario();
-        usuario.setUserName(userName);
-        usuario.setNuevoUserName(nuevoUserName);
-
-        usuarioService.actualizarUserNameUsuario(usuario);
-  
-        //Al actualizar el userName estamos cambiando el username de la aplicación, recordar que este username esta impreso en el token, es por eso que debemos genear un token nuevo
-        token = jwtService.generarToken(usuario);
-
-        //Se retorna el nuevo token
-        return new ResponseEntity<String>(token, HttpStatus.OK);
+        return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
       }
+      
+      Usuario usuario = new Usuario();
+      usuario.setUserName(userName);
+      usuario.setNuevoUserName(nuevoUserName);
 
-      return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
-    } 
+      usuarioService.actualizarUserNameUsuario(usuario);
+
+      //Al actualizar el userName estamos cambiando el username de la aplicación, recordar que este username esta impreso en el token, es por eso que debemos genear un token nuevo
+      token = jwtService.generarToken(usuario);
+
+      //Se retorna el nuevo token
+      return new ResponseEntity<String>(token, HttpStatus.OK);
+    }
+    catch(DataIntegrityViolationException dive)
+    {
+      return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+    }
     catch (Exception e) 
     {
       return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-
-
-
-  // /**
-  //  * Método que permite obtener el email del usuario a partir del token
-  //  * @param headerAuthorization contiene el token
-  //  * @return Email del usuario
-  //  */
-  // @GetMapping(value = "/usuarios/emails")
-  // public ResponseEntity<String> getEmailUsuario(@RequestHeader("Authorization") String headerAuthorization) 
-  // {
-  //   try
-  //   {
-  //     String token = jwtService.getToken(headerAuthorization);
-  //     String email = jwtService.getUserNameFromToken(token);
-      
-  //     return new ResponseEntity<String>(email, HttpStatus.OK);
-  //   }
-  //   catch (Exception e) 
-  //   {
-  //     return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
-  //   }
-  // }
-
 
 
 

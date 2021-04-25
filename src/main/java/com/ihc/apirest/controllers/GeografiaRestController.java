@@ -35,6 +35,11 @@ public class GeografiaRestController
     {
       List<Geografia> lstCiudades = geografiaService.getAllCiudades();
 
+      if(lstCiudades.isEmpty())
+      {
+        return new ResponseEntity<List<Geografia>>(HttpStatus.NO_CONTENT);
+      }
+
       return new ResponseEntity<List<Geografia>>(lstCiudades, HttpStatus.OK);
     } 
     catch (Exception e) 

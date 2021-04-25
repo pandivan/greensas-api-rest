@@ -25,7 +25,7 @@ public class ClienteService
    */
   public Cliente getClienteById(Long idCliente) 
   {
-    return clienteRepository.findById(idCliente);
+    return clienteRepository.findByIdCliente(idCliente);
   }
 
 
@@ -51,8 +51,4 @@ public class ClienteService
   {
     return clienteRepository.save(cliente);
   }
-
-
-
-  
 }

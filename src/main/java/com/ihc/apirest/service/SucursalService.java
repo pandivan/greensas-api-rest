@@ -25,7 +25,7 @@ public class SucursalService
    */
   public Sucursal getSucursalById(Long idSucursal) 
   {
-    return sucursalRepository.findById(idSucursal);
+    return sucursalRepository.findByIdSucursal(idSucursal);
   }
 
 
