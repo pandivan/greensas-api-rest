@@ -88,6 +88,7 @@ public class ClienteRestController
         
         if(null != cliente)
         {
+          cliente.setEmail(usuario.getUsername());
           return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
         }
       }

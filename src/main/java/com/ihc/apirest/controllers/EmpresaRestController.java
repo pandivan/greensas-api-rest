@@ -1,8 +1,9 @@
 package com.ihc.apirest.controllers;
 
+import java.util.List;
+
 import com.ihc.apirest.models.Empresa;
 import com.ihc.apirest.models.Sucursal;
-import com.ihc.apirest.models.Usuario;
 import com.ihc.apirest.service.EmpresaService;
 import com.ihc.apirest.service.JwtService;
 import com.ihc.apirest.service.UsuarioService;
@@ -12,13 +13,13 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 
 
@@ -37,6 +38,8 @@ public class EmpresaRestController
 
   @Autowired
   JwtService jwtService;
+
+
 
 
   /**
@@ -60,8 +63,8 @@ public class EmpresaRestController
       }
 
       /**
-       * Se hace un set de pedido en todos los productos, ya que javascript no adminte estructuras ciclicas en el caso de [ProductoPedido] que contiene a [Pedido] 
-       * y este a su vez contiene a [ProductoPedido], lo cual imposibilita enviar un entity de [Pedido] desde la App
+       * Se hace un set de empresa en todas las sucursales, ya que javascript no adminte estructuras ciclicas en el caso de [Sucursal] que contiene a [Empresa] 
+       * y este a su vez contiene a [Sucursal], lo cual imposibilita enviar un entity de [Empresa] desde la App
        */
       for (Sucursal sucursal : empresa.getLstSucursales()) 
       {
@@ -96,6 +99,15 @@ public class EmpresaRestController
   {
     try 
     {
+      /**
+       * Se hace un set de empresa en todas las sucursales, ya que javascript no adminte estructuras ciclicas en el caso de [Sucursal] que contiene a [Empresa] 
+       * y este a su vez contiene a [Sucursal], lo cual imposibilita enviar un entity de [Empresa] desde la App
+       */
+      for (Sucursal sucursal : empresa.getLstSucursales()) 
+      {
+        sucursal.setEmpresa(empresa);
+      }
+      
       empresaService.actualizarEmpresa(empresa);
 
       return new ResponseEntity<Boolean>(true, HttpStatus.OK);
@@ -113,28 +125,20 @@ public class EmpresaRestController
 
 
   /**
-   * Método que permite obtener la empresa a partir del token del usuario
-   * @param token que contiene el username
+   * Método que permite obtener una empresa según su id
+   * @param idEmpresa Id de la empresa
    * @return Empresa encontrada
    */
-  @GetMapping(value = "/empresas")
-  public ResponseEntity<Empresa> getEmpresa(@RequestHeader("Authorization") String headerAuthorization) 
+  @GetMapping(value = "/empresas/{idEmpresa}")
+  public ResponseEntity<Empresa> getEmpresa(@PathVariable("idEmpresa") Long idEmpresa)
   {
     try
     {
-      String token = jwtService.getToken(headerAuthorization);
-      String userName = jwtService.getUserNameFromToken(token);
-
-      Usuario usuario = usuarioService.getUsuarioByUserName(userName);
-
-      if(null != usuario)
+      Empresa empresa = empresaService.getEmpresaById(idEmpresa);
+      
+      if(null != empresa)
       {
-        Empresa empresa = empresaService.getEmpresaById(usuario.getIdEntidad());
-        
-        if(null != empresa)
-        {
-          return new ResponseEntity<Empresa>(empresa, HttpStatus.OK);
-        }
+        return new ResponseEntity<Empresa>(empresa, HttpStatus.OK);
       }
       
       return new ResponseEntity<Empresa>(HttpStatus.NO_CONTENT);
@@ -142,6 +146,58 @@ public class EmpresaRestController
     catch (Exception e) 
     {
       return new ResponseEntity<Empresa>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+
+
+  /**
+   * Método que permite obtener todas las empresas
+   * @return Listado de empresas
+   */
+  @GetMapping(value = "/empresas")
+  public ResponseEntity<List<Empresa>> getAllEmpresas()
+  {
+    try
+    {
+      List<Empresa> lstEmpresas = empresaService.getAllEmpresas();
+      
+      if(lstEmpresas.isEmpty())
+      {
+        return new ResponseEntity<List<Empresa>>(HttpStatus.NO_CONTENT);
+      }
+      
+      return new ResponseEntity<List<Empresa>>(lstEmpresas, HttpStatus.OK);
+    }
+    catch (Exception e) 
+    {
+      return new ResponseEntity<List<Empresa>>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+
+
+   /**
+   * Método que permite obtener todas las empresas
+   * @return Listado de empresas
+   */
+  @GetMapping(value = "/empresas/estados/{idEstado}")
+  public ResponseEntity<List<Empresa>> getEmpresasByIdEstado(@PathVariable("idEstado") Long idEstado)
+  {
+    try
+    {
+      List<Empresa> lstEmpresas = empresaService.getEmpresasByIdEstado(idEstado);
+      
+      if(lstEmpresas.isEmpty())
+      {
+        return new ResponseEntity<List<Empresa>>(HttpStatus.NO_CONTENT);
+      }
+      
+      return new ResponseEntity<List<Empresa>>(lstEmpresas, HttpStatus.OK);
+    }
+    catch (Exception e) 
+    {
+      return new ResponseEntity<List<Empresa>>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

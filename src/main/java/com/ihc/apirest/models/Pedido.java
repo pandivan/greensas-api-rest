@@ -31,7 +31,6 @@ public class Pedido
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idPedido;
 	private Long idSucursal;
-	// private Long idCliente;
 	@JoinColumn(name = "idCliente")
 	@ManyToOne(optional = false)
 	private Cliente cliente;

@@ -14,13 +14,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String>
 {
     
     @Modifying
-    @Query("update Usuario c SET c.password = ?1 where c.userName = ?2")
-    Integer actualizarPasswordUsuario(String password, String userName);
+    @Query("update Usuario c SET c.password = ?1 where c.idUsuario = ?2")
+    Integer actualizarPasswordUsuario(String password, Long idUsuario);
 
 
     @Modifying
-    @Query("update Usuario c SET c.userName = ?1 where c.userName = ?2")
-    Integer actualizarUserNameUsuario(String nuevoUserName, String userName);
+    @Query("update Usuario c SET c.userName = ?1 where c.idUsuario = ?2")
+    Integer actualizarUserNameUsuario(String nuevoUserName, Long idUsuario);
 
 
     @Modifying
@@ -28,11 +28,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String>
     Integer restaurarPassword(String password, String userName);
 
 
-    boolean existsByUserName(String userName);
-
-
-    Usuario findByUserNameAndPassword(String userName, String password);
-
-
     Usuario findByUserName(String userName);
+
+
+    Usuario findByIdUsuario(Long idUsuario);
+
+
+    boolean existsByUserName(String userName);
 }

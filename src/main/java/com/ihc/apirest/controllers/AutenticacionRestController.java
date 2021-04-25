@@ -55,12 +55,14 @@ public class AutenticacionRestController
   
 
 
+
+  
   /**
    * Método que permite crear un nuevo cliente en BD
    * @param cliente a crear
    * @return Token si el registro fue exitosa, en caso contrario http status
    */
-  @PostMapping(value="/signup")
+  @PostMapping(value="/signup/clientes")
   public ResponseEntity<String> signup(@RequestBody Cliente cliente)
   {
     try 
@@ -103,7 +105,6 @@ public class AutenticacionRestController
       usuario.setUserName(cliente.getEmail());
       usuario.setPassword(bcrypt.encode(cliente.getPassword()));
 
-      //Este metodo creará un usuario en BD para la app de [mi-bario-app]
       Usuario usuarioBD = usuarioService.registrarUsuario(usuario);
       
       String token = jwtService.generarToken(usuarioBD);

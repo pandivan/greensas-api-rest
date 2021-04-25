@@ -29,7 +29,7 @@ public class Empresa
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idEmpresa;
 	private Long idGeografia;
-	private Integer idEstado;
+	private Long idEstado;
 	private String nit;
 	private String nombre;
 	private String telefono;

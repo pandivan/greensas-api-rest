@@ -1,0 +1,1497 @@
+{
+	"info": {
+		"_postman_id": "ff500dc8-d288-4254-a441-c01227fec0d1",
+		"name": "Local",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Flujo Clientes",
+			"item": [
+				{
+					"name": "1 Autenticacion",
+					"item": [
+						{
+							"name": "/signup",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"idCliente\": null,\n    \"idBarrio\": 1,\n    \"cedula\": \"1107034509\",\n    \"nombre\": \"Diana Cardenas\",\n    \"telefono\": \"3023392348\",\n    \"direccion1\": \"calle 45 # 99 - 39 apto 204 F entreparques\",\n    \"direccion2\": \"direccion2\",\n    \"direccion3\": \"direccion3\",\n    \"email\": \"dianacardenasvalencia@gmail.com\",\n    \"fechaNacimiento\": \"1981-12-01T05:00:00.000+00:00\",\n    \"sexo\": \"F\",\n    \"password\": \"1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/signup",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/login",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userName\": \"dianacardenasvalencia@gmail.com\",\n    \"password\": \"1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/info",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjczMDc5LCJleHAiOjE2MTkzMDkwNzl9.8Lhsd0hUqX0J3Rl3rhmkyWRcg_mgOh89dD0EskaE0qfj-8KsfIa5vwMEoyYaOr-wB_OHhXZUerfOZWYB-nlXCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/info",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"info"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "2 Clientes",
+					"item": [
+						{
+							"name": "/clientes",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjczMDc5LCJleHAiOjE2MTkzMDkwNzl9.8Lhsd0hUqX0J3Rl3rhmkyWRcg_mgOh89dD0EskaE0qfj-8KsfIa5vwMEoyYaOr-wB_OHhXZUerfOZWYB-nlXCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"idCliente\": 103,\n    \"idBarrio\": 1,\n    \"idEstado\": 4,\n    \"cedula\": \"11070345099\",\n    \"nombre\": \"Diana Cardenas Valencia\",\n    \"telefono\": \"3023392349\",\n    \"direccion1\": \"calle 45 # 99 - 39 apto 204 F entreparques club\",\n    \"direccion2\": \"direccion22\",\n    \"direccion3\": \"direccion33\",\n    \"email\": \"dianacardenasvalencia@gmail.com\",\n    \"fechaNacimiento\": \"1984-12-01T05:00:00.000+00:00\",\n    \"sexo\": \"MMM\",\n    \"password\": null\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/clientes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"clientes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/clientes",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjczMDc5LCJleHAiOjE2MTkzMDkwNzl9.8Lhsd0hUqX0J3Rl3rhmkyWRcg_mgOh89dD0EskaE0qfj-8KsfIa5vwMEoyYaOr-wB_OHhXZUerfOZWYB-nlXCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/clientes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"clientes"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "3 Usuarios",
+					"item": [
+						{
+							"name": "/usuarios/passwords/{nuevoPassword}",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjczMDc5LCJleHAiOjE2MTkzMDkwNzl9.8Lhsd0hUqX0J3Rl3rhmkyWRcg_mgOh89dD0EskaE0qfj-8KsfIa5vwMEoyYaOr-wB_OHhXZUerfOZWYB-nlXCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/usuarios/passwords/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"usuarios",
+										"passwords",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/usuarios/usernames/{nuevoUserName}",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjgyOTE1LCJleHAiOjE2MTkzMTg5MTV9.3zby79ArxR-9B-6lp5fKGmOZimyAjOmTvaHnuUe-fPCAknFUhs3dfRuA2HxtC5Qhe6aI5_wjxNhB3K8JLusVLA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/usuarios/usernames/dianacardenasvalencia@gmail.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"usuarios",
+										"usernames",
+										"dianacardenasvalencia@gmail.com"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "4 Pedidos",
+					"item": [
+						{
+							"name": "/pedidos/clientes/{idCliente}",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjczMDc5LCJleHAiOjE2MTkzMDkwNzl9.8Lhsd0hUqX0J3Rl3rhmkyWRcg_mgOh89dD0EskaE0qfj-8KsfIa5vwMEoyYaOr-wB_OHhXZUerfOZWYB-nlXCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/pedidos/clientes/103",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"pedidos",
+										"clientes",
+										"103"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/pedidos",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjczMDc5LCJleHAiOjE2MTkzMDkwNzl9.8Lhsd0hUqX0J3Rl3rhmkyWRcg_mgOh89dD0EskaE0qfj-8KsfIa5vwMEoyYaOr-wB_OHhXZUerfOZWYB-nlXCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"idPedido\": null,\n    \"idSucursal\": null,\n    \"cliente\": {\"idCliente\": 103},\n    \"idEstado\": 4,\n    \"lstProductosPedido\": \n    [\n        {\n            \"idProductoPedido\": null,\n            \"producto\": {\"idProducto\": 100},\n            \"cantidad\": 6,\n            \"valor\": 24\n        },\n        {\n            \"idProductoPedido\": null,\n            \"producto\": {\"idProducto\": 101},\n            \"cantidad\": 6,\n            \"valor\": 20\n        },\n        {\n            \"idProductoPedido\": null,\n            \"producto\": {\"idProducto\": 102},\n            \"cantidad\": 6,\n            \"valor\": 21\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/pedidos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"pedidos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/pedidos/{idPedido}/estados/{idEstado}",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjczMDc5LCJleHAiOjE2MTkzMDkwNzl9.8Lhsd0hUqX0J3Rl3rhmkyWRcg_mgOh89dD0EskaE0qfj-8KsfIa5vwMEoyYaOr-wB_OHhXZUerfOZWYB-nlXCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/pedidos/107/estados/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"pedidos",
+										"107",
+										"estados",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Flujo Empresas Soporte",
+			"item": [
+				{
+					"name": "1 Autenticacion",
+					"item": [
+						{
+							"name": "/login",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userName\": \"admin\",\n    \"password\": \"1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/info",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjczMDc5LCJleHAiOjE2MTkzMDkwNzl9.8Lhsd0hUqX0J3Rl3rhmkyWRcg_mgOh89dD0EskaE0qfj-8KsfIa5vwMEoyYaOr-wB_OHhXZUerfOZWYB-nlXCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/info",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"info"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "2 Empresas",
+					"item": [
+						{
+							"name": "/empresas",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0NMSUVOVEUifV0sImlhdCI6MTYxOTMwOTY2NSwiZXhwIjoxNjE5MzQ1NjY1fQ.eyzfp-g__qnC-jitbcZnIaAKzll0NHn4NNKxNskAVBbD2cjlQiSWmn9Ubdkk59Th9HGhhSeJDWtMurBtRl5pHw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"idEmpresa\": null,\n    \"idGeografia\": 1,\n    \"idEstado\": 4,\n    \"nit\": \"nit_greensas\",\n    \"nombre\": \"Greensas\",\n    \"telefono\": \"1111111111\",\n    \"direccion\": \"Pasoancho con 80\",\n    \"email\": \"greensas@gmail.com\",\n    \"lstSucursales\":\n    [\n        {\n            \"idSucursal\": null,\n            \"idGeografia\": 1,\n            \"idEstado\": 4,\n            \"nombre\": \"Portal del Sur\",\n            \"telefono\": \"3333333333\",\n            \"direccion\": \"Direccion Portal del Sur\",\n            \"horarioApertura\": \"08:00 AM\",\n            \"horarioCierre\": \"10:00 PM\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/empresas",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"empresas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/empresas",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0NMSUVOVEUifV0sImlhdCI6MTYxOTMwOTY2NSwiZXhwIjoxNjE5MzQ1NjY1fQ.eyzfp-g__qnC-jitbcZnIaAKzll0NHn4NNKxNskAVBbD2cjlQiSWmn9Ubdkk59Th9HGhhSeJDWtMurBtRl5pHw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"idEmpresa\": 103,\n    \"idGeografia\": 1,\n    \"idEstado\": 4,\n    \"nit\": \"nit_greensas\",\n    \"nombre\": \"Greensas\",\n    \"telefono\": \"1111111111\",\n    \"direccion\": \"Pasoancho con 80\",\n    \"email\": \"greensas@gmail.com\",\n    \"lstSucursales\": [\n        {\n            \"idSucursal\": 101,\n            \"idGeografia\": 1,\n            \"idEstado\": 4,\n            \"nombre\": \"Portal del Sur\",\n            \"telefono\": \"3333333333\",\n            \"direccion\": \"Direccion Portal del Sur\",\n            \"horarioApertura\": \"08:00 AM\",\n            \"horarioCierre\": \"10:00 PM\"\n        },\n        {\n            \"idSucursal\": null,\n            \"idGeografia\": 1,\n            \"idEstado\": 4,\n            \"nombre\": \"Plaza Autopista\",\n            \"telefono\": \"4444444444\",\n            \"direccion\": \"Direccion Plaza Autopista\",\n            \"horarioApertura\": \"08:00 AM\",\n            \"horarioCierre\": \"11:00 PM\"\n        },\n        {\n            \"idSucursal\": null,\n            \"idGeografia\": 1,\n            \"idEstado\": 4,\n            \"nombre\": \"Pasoancho\",\n            \"telefono\": \"5555555555\",\n            \"direccion\": \"Direccion Pasoancho\",\n            \"horarioApertura\": \"08:00 AM\",\n            \"horarioCierre\": \"07:00 PM\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/empresas",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"empresas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/empresas",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0NMSUVOVEUifV0sImlhdCI6MTYxOTMwOTY2NSwiZXhwIjoxNjE5MzQ1NjY1fQ.eyzfp-g__qnC-jitbcZnIaAKzll0NHn4NNKxNskAVBbD2cjlQiSWmn9Ubdkk59Th9HGhhSeJDWtMurBtRl5pHw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/empresas",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"empresas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/empresas/{idEmpresa}",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0NMSUVOVEUifV0sImlhdCI6MTYxOTMwOTY2NSwiZXhwIjoxNjE5MzQ1NjY1fQ.eyzfp-g__qnC-jitbcZnIaAKzll0NHn4NNKxNskAVBbD2cjlQiSWmn9Ubdkk59Th9HGhhSeJDWtMurBtRl5pHw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/empresas/103",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"empresas",
+										"103"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/empresas/estados/{idEstado}",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0NMSUVOVEUifV0sImlhdCI6MTYxOTMwOTY2NSwiZXhwIjoxNjE5MzQ1NjY1fQ.eyzfp-g__qnC-jitbcZnIaAKzll0NHn4NNKxNskAVBbD2cjlQiSWmn9Ubdkk59Th9HGhhSeJDWtMurBtRl5pHw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/empresas/estados/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"empresas",
+										"estados",
+										"5"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "3 Usuarios",
+					"item": [
+						{
+							"name": "/usuarios",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjczMDc5LCJleHAiOjE2MTkzMDkwNzl9.8Lhsd0hUqX0J3Rl3rhmkyWRcg_mgOh89dD0EskaE0qfj-8KsfIa5vwMEoyYaOr-wB_OHhXZUerfOZWYB-nlXCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/usuarios",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/usuarios/passwords/{nuevoPassword} Copy",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjczMDc5LCJleHAiOjE2MTkzMDkwNzl9.8Lhsd0hUqX0J3Rl3rhmkyWRcg_mgOh89dD0EskaE0qfj-8KsfIa5vwMEoyYaOr-wB_OHhXZUerfOZWYB-nlXCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/usuarios/passwords/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"usuarios",
+										"passwords",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/usuarios/usernames/{nuevoUserName}",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjgyOTE1LCJleHAiOjE2MTkzMTg5MTV9.3zby79ArxR-9B-6lp5fKGmOZimyAjOmTvaHnuUe-fPCAknFUhs3dfRuA2HxtC5Qhe6aI5_wjxNhB3K8JLusVLA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/usuarios/usernames/dianacardenasvalencia@gmail.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"usuarios",
+										"usernames",
+										"dianacardenasvalencia@gmail.com"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "4 Sucursales",
+					"item": []
+				}
+			]
+		},
+		{
+			"name": "Flujo Empresas",
+			"item": [
+				{
+					"name": "1 Autenticacion",
+					"item": [
+						{
+							"name": "/login",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userName\": \"admin\",\n    \"password\": \"1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/info",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjczMDc5LCJleHAiOjE2MTkzMDkwNzl9.8Lhsd0hUqX0J3Rl3rhmkyWRcg_mgOh89dD0EskaE0qfj-8KsfIa5vwMEoyYaOr-wB_OHhXZUerfOZWYB-nlXCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/info",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"info"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "2 Empresas",
+					"item": [
+						{
+							"name": "/empresas",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0NMSUVOVEUifV0sImlhdCI6MTYxOTMwOTY2NSwiZXhwIjoxNjE5MzQ1NjY1fQ.eyzfp-g__qnC-jitbcZnIaAKzll0NHn4NNKxNskAVBbD2cjlQiSWmn9Ubdkk59Th9HGhhSeJDWtMurBtRl5pHw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"idEmpresa\": 103,\n    \"idGeografia\": 1,\n    \"idEstado\": 4,\n    \"nit\": \"nit_greensas\",\n    \"nombre\": \"Greensas\",\n    \"telefono\": \"1111111111\",\n    \"direccion\": \"Pasoancho con 80\",\n    \"email\": \"greensas@gmail.com\",\n    \"lstSucursales\": [\n        {\n            \"idSucursal\": 101,\n            \"idGeografia\": 1,\n            \"idEstado\": 4,\n            \"nombre\": \"Portal del Sur\",\n            \"telefono\": \"3333333333\",\n            \"direccion\": \"Direccion Portal del Sur\",\n            \"horarioApertura\": \"08:00 AM\",\n            \"horarioCierre\": \"10:00 PM\"\n        },\n        {\n            \"idSucursal\": null,\n            \"idGeografia\": 1,\n            \"idEstado\": 4,\n            \"nombre\": \"Plaza Autopista\",\n            \"telefono\": \"4444444444\",\n            \"direccion\": \"Direccion Plaza Autopista\",\n            \"horarioApertura\": \"08:00 AM\",\n            \"horarioCierre\": \"11:00 PM\"\n        },\n        {\n            \"idSucursal\": null,\n            \"idGeografia\": 1,\n            \"idEstado\": 4,\n            \"nombre\": \"Pasoancho\",\n            \"telefono\": \"5555555555\",\n            \"direccion\": \"Direccion Pasoancho\",\n            \"horarioApertura\": \"08:00 AM\",\n            \"horarioCierre\": \"07:00 PM\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/empresas",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"empresas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/empresas/{idEmpresa}",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0NMSUVOVEUifV0sImlhdCI6MTYxOTMwOTY2NSwiZXhwIjoxNjE5MzQ1NjY1fQ.eyzfp-g__qnC-jitbcZnIaAKzll0NHn4NNKxNskAVBbD2cjlQiSWmn9Ubdkk59Th9HGhhSeJDWtMurBtRl5pHw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/empresas/103",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"empresas",
+										"103"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "3 Pedidos",
+					"item": [
+						{
+							"name": "/pedidos/clientes/{idCliente}",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjczMDc5LCJleHAiOjE2MTkzMDkwNzl9.8Lhsd0hUqX0J3Rl3rhmkyWRcg_mgOh89dD0EskaE0qfj-8KsfIa5vwMEoyYaOr-wB_OHhXZUerfOZWYB-nlXCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/pedidos/clientes/103",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"pedidos",
+										"clientes",
+										"103"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/pedidos",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjczMDc5LCJleHAiOjE2MTkzMDkwNzl9.8Lhsd0hUqX0J3Rl3rhmkyWRcg_mgOh89dD0EskaE0qfj-8KsfIa5vwMEoyYaOr-wB_OHhXZUerfOZWYB-nlXCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"idPedido\": null,\n    \"idSucursal\": null,\n    \"cliente\": {\"idCliente\": 103},\n    \"idEstado\": 4,\n    \"lstProductosPedido\": \n    [\n        {\n            \"idProductoPedido\": null,\n            \"producto\": {\"idProducto\": 100},\n            \"cantidad\": 6,\n            \"valor\": 24\n        },\n        {\n            \"idProductoPedido\": null,\n            \"producto\": {\"idProducto\": 101},\n            \"cantidad\": 6,\n            \"valor\": 20\n        },\n        {\n            \"idProductoPedido\": null,\n            \"producto\": {\"idProducto\": 102},\n            \"cantidad\": 6,\n            \"valor\": 21\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/pedidos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"pedidos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/pedidos/{idPedido}/estados/{idEstado}",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjczMDc5LCJleHAiOjE2MTkzMDkwNzl9.8Lhsd0hUqX0J3Rl3rhmkyWRcg_mgOh89dD0EskaE0qfj-8KsfIa5vwMEoyYaOr-wB_OHhXZUerfOZWYB-nlXCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7788/v1/pedidos/107/estados/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7788",
+									"path": [
+										"v1",
+										"pedidos",
+										"107",
+										"estados",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Productos",
+			"item": [
+				{
+					"name": "/productos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idPedido\": 7,\n    \"idTienda\": 2,\n    \"idEstado\": 102\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7788/v1/productos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7788",
+							"path": [
+								"v1",
+								"productos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Geografia",
+			"item": [
+				{
+					"name": "/ciudades",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idPedido\": 7,\n    \"idTienda\": 2,\n    \"idEstado\": 102\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7788/v1/ciudades",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7788",
+							"path": [
+								"v1",
+								"ciudades"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pedidos",
+			"item": [
+				{
+					"name": "/pedidos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpdmFuLmhlcm5hbmRlei5jb3JhbEBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DTElFTlRFIn1dLCJpYXQiOjE2MTc0MTAxODYsImV4cCI6MTYxNzQ0NjE4Nn0.Nz_TVlx9Ni0909Syg4CcMC5dqd_Q0tELOAw84Y20Cro3RWyZ7K39gk7ALIeFqI_ECkxn5if4J4L0jyfX5bFaJg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idPedido\": null,\n    \"idTienda\": null,\n    \"cliente\": {\"idCliente\": 5},\n    \"idEstado\": 100,\n    \"lstProductosPedido\": \n    [\n        {\n            \"idProductoPedido\": null,\n            \"producto\": {\"idProducto\": 100},\n            \"cantidad\": 6,\n            \"valor\": 24\n        },\n        {\n            \"idProductoPedido\": null,\n            \"producto\": {\"idProducto\": 101},\n            \"cantidad\": 6,\n            \"valor\": 20\n        },\n        {\n            \"idProductoPedido\": null,\n            \"producto\": {\"idProducto\": 102},\n            \"cantidad\": 6,\n            \"valor\": 21\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7788/v1/pedidos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7788",
+							"path": [
+								"v1",
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/pedidos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpdmFuLmhlcm5hbmRlei5jb3JhbEBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DTElFTlRFIn1dLCJpYXQiOjE2MTc0MTAxODYsImV4cCI6MTYxNzQ0NjE4Nn0.Nz_TVlx9Ni0909Syg4CcMC5dqd_Q0tELOAw84Y20Cro3RWyZ7K39gk7ALIeFqI_ECkxn5if4J4L0jyfX5bFaJg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idPedido\": 2,\n    \"idTienda\": 7,\n    \"idEstado\": 101\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7788/v1/pedidos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7788",
+							"path": [
+								"v1",
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/pedidos/estado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpdmFuLmhlcm5hbmRlei5jb3JhbEBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DTElFTlRFIn1dLCJpYXQiOjE2MTc0MTAxODYsImV4cCI6MTYxNzQ0NjE4Nn0.Nz_TVlx9Ni0909Syg4CcMC5dqd_Q0tELOAw84Y20Cro3RWyZ7K39gk7ALIeFqI_ECkxn5if4J4L0jyfX5bFaJg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idPedido\": 2,\n    \"idEstado\": 101\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7788/v1/pedidos/estado",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7788",
+							"path": [
+								"v1",
+								"pedidos",
+								"estado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/pedidos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpdmFuLmhlcm5hbmRlei5jb3JhbEBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DTElFTlRFIn1dLCJpYXQiOjE2MTc0MTAxODYsImV4cCI6MTYxNzQ0NjE4Nn0.Nz_TVlx9Ni0909Syg4CcMC5dqd_Q0tELOAw84Y20Cro3RWyZ7K39gk7ALIeFqI_ECkxn5if4J4L0jyfX5bFaJg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7788/v1/pedidos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7788",
+							"path": [
+								"v1",
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/pedidos/tienda/{idTienda}",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpdmFuLmhlcm5hbmRlei5jb3JhbEBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DTElFTlRFIn1dLCJpYXQiOjE2MTc0MTAxODYsImV4cCI6MTYxNzQ0NjE4Nn0.Nz_TVlx9Ni0909Syg4CcMC5dqd_Q0tELOAw84Y20Cro3RWyZ7K39gk7ALIeFqI_ECkxn5if4J4L0jyfX5bFaJg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7788/v1/pedidos/tienda/7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7788",
+							"path": [
+								"v1",
+								"pedidos",
+								"tienda",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/pedidos/cliente/{idCliente}",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpdmFuLmhlcm5hbmRlei5jb3JhbEBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DTElFTlRFIn1dLCJpYXQiOjE2MTc0MTAxODYsImV4cCI6MTYxNzQ0NjE4Nn0.Nz_TVlx9Ni0909Syg4CcMC5dqd_Q0tELOAw84Y20Cro3RWyZ7K39gk7ALIeFqI_ECkxn5if4J4L0jyfX5bFaJg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7788/v1/pedidos/cliente/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7788",
+							"path": [
+								"v1",
+								"pedidos",
+								"cliente",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

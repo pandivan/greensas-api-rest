@@ -35,10 +35,12 @@ public class Cliente
 	private String direccion1;
 	private String direccion2;
 	private String direccion3;
-	private String email;
 	private Date fechaNacimiento;
 	private String sexo;
 	
+	@Transient
+	private String email;
+
 	@Transient
 	private String password;
 

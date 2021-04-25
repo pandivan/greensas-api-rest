@@ -104,7 +104,7 @@ create table domicilios.cliente
 (
 id_cliente bigserial not null,
 id_barrio bigint not null,
-id_estado bigint default 1 not null,
+id_estado bigint not null,
 id_tiempo_fecha_creacion integer DEFAULT cast(to_char(NOW()::timestamp, 'YYYYMMDD') as integer) not null,
 cedula varchar(20) not null,
 nombre varchar(100) not null,
@@ -112,7 +112,6 @@ telefono varchar(50) not null,
 direccion1 varchar(255) not null,
 direccion2 varchar(255) null,
 direccion3 varchar(255) null,
-email varchar(100) not null,
 fecha_nacimiento date not null,
 sexo varchar(1) not null,
 primary key (id_cliente)
@@ -309,7 +308,7 @@ INSERT INTO domicilios.sucursal(id_sucursal, id_empresa, id_geografia, id_estado
 
 commit;
 
-INSERT INTO domicilios.usuario(id_usuario, id_entidad, id_estado, user_name, "password", tipo) values(1, 1, 4, 'admin', '$2a$10$gB8INonip0qlogoMpX6Ka.jbW6FdnmZQHPmV.t/csR1G5aIU3h85e', 'EMPRESA');
+INSERT INTO domicilios.usuario(id_usuario, id_entidad, id_estado, user_name, "password", tipo) values(1, 1, 4, 'admin', '$2a$10$.qpe21aS69SlT3bGaOOBmuF85V8XvygHdUp8KTq0nTqCTMQuBALUe', 'EMPRESA');
 
 commit;
 
@@ -475,7 +474,7 @@ ALTER SEQUENCE domicilios.producto_pedido_id_producto_pedido_seq RESTART WITH 10
 
 select * from domicilios.empresa;
 
-select * from domicilios.sucursal;
+select * from domicilios.sucursal order by 1;
 
 
 select * from domicilios.geografia;
@@ -502,7 +501,7 @@ select * from domicilios.pedido p ;
 
 select * from domicilios.producto_pedido pp ;
 
---eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWFuYWNhcmRlbmFzdmFsZW5jaWFAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5URSJ9XSwiaWF0IjoxNjE5MjczMDc5LCJleHAiOjE2MTkzMDkwNzl9.8Lhsd0hUqX0J3Rl3rhmkyWRcg_mgOh89dD0EskaE0qfj-8KsfIa5vwMEoyYaOr-wB_OHhXZUerfOZWYB-nlXCg
+--eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0NMSUVOVEUifV0sImlhdCI6MTYxOTMwOTY2NSwiZXhwIjoxNjE5MzQ1NjY1fQ.eyzfp-g__qnC-jitbcZnIaAKzll0NHn4NNKxNskAVBbD2cjlQiSWmn9Ubdkk59Th9HGhhSeJDWtMurBtRl5pHw
 
 
 --select  * from domicilios.aforo 
@@ -535,3 +534,5 @@ select * from domicilios.producto_pedido pp ;
 ----and p.id_pedido = 14
 --;
 
+
+--ALTER TABLE domicilios.cliente DROP COLUMN email;

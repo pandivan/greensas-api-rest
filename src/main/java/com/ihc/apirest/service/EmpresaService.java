@@ -1,5 +1,7 @@
 package com.ihc.apirest.service;
 
+import java.util.List;
+
 import com.ihc.apirest.models.Empresa;
 import com.ihc.apirest.repository.EmpresaRepository;
 
@@ -62,5 +64,29 @@ public class EmpresaService
   public boolean existeEmpresaByNit(String nit) 
   {
     return empresaRepository.existsByNit(nit);
+  }
+
+
+
+  /**
+   * Método que permite otener todas las empresas sin importar el estado
+   * @return Listado de empresas
+   */
+  public List<Empresa> getAllEmpresas()
+  {
+    return empresaRepository.findAll();
+  }
+
+
+
+
+  /**
+   * Método que permite otener todas las empresas según el estado
+   * @param idEstado Id del estado
+   * @return Listado de empresas
+   */
+  public List<Empresa> getEmpresasByIdEstado(Long idEstado)
+  {
+    return empresaRepository.findByIdEstado(idEstado);
   }
 }

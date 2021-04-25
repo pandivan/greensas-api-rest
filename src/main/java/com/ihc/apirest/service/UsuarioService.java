@@ -1,5 +1,7 @@
 package com.ihc.apirest.service;
 
+import java.util.List;
+
 import com.ihc.apirest.models.Usuario;
 import com.ihc.apirest.repository.UsuarioRepository;
 
@@ -17,15 +19,6 @@ public class UsuarioService
   private UsuarioRepository usuarioRepository;
 
 
-  /**
-   * Método que permite obtener un usuario según su userName
-   * @param userName con el cual se buscara el usuario en BD
-   * @return Usuario encontrado
-   */
-  public Usuario getUsuarioByUserName(String userName) 
-  {
-    return usuarioRepository.findByUserName(userName);
-  }
 
 
   /**
@@ -39,6 +32,7 @@ public class UsuarioService
   }
 
 
+
   /**
    * Método que permite actualizar el password del usuario en BD
    * @param usuario que contiene el password a actualizar
@@ -46,7 +40,7 @@ public class UsuarioService
    */
   public Integer actualizarPasswordUsuario(Usuario usuario) 
   {
-    return usuarioRepository.actualizarPasswordUsuario(usuario.getPassword(), usuario.getUsername());
+    return usuarioRepository.actualizarPasswordUsuario(usuario.getPassword(), usuario.getIdUsuario());
   }
 
 
@@ -57,8 +51,9 @@ public class UsuarioService
    */
   public Integer actualizarUserNameUsuario(Usuario usuario) 
   {
-    return usuarioRepository.actualizarUserNameUsuario(usuario.getNuevoUserName(), usuario.getUsername());
+    return usuarioRepository.actualizarUserNameUsuario(usuario.getNuevoUserName(), usuario.getIdUsuario());
   }
+
 
 
   /**
@@ -70,6 +65,42 @@ public class UsuarioService
   {
     return usuarioRepository.restaurarPassword(password, userName);
   }
+
+
+
+  /**
+   * Método que permite obtener todos los usuarios
+   * @return Lista de usuarios
+   */
+  public List<Usuario> getAllUsuarios() 
+  {
+    return usuarioRepository.findAll();
+  }
+
+
+
+  /**
+   * Método que permite obtener un usuario según su userName
+   * @param userName con el cual se buscara el usuario en BD
+   * @return Usuario encontrado
+   */
+  public Usuario getUsuarioByUserName(String userName) 
+  {
+    return usuarioRepository.findByUserName(userName);
+  }
+
+
+
+  /**
+   * Método que permite obtener un usuario según su id
+   * @param idUsuario con el cual se buscara el usuario en BD
+   * @return Usuario encontrado
+   */
+  public Usuario getUsuarioById(Long idUsuario) 
+  {
+    return usuarioRepository.findByIdUsuario(idUsuario);
+  }
+
 
 
   /**

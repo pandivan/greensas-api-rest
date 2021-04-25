@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -110,26 +111,22 @@ public class UsuarioRestController
 
 
 
-
   /**
    * Método que permite actualizar el password de un usuario en BD
    * @param nuevoPassword Nuevo password
    * @return true si el password del usuario fue actualizado, en caso contrario false
    */
   // @PreAuthorize("hasRole('ROLE_ACUATEX_CLIENTE')")
-  @PutMapping("/usuarios/passwords/{nuevoPassword}")
-  public ResponseEntity<Boolean> actualizarPasswordUsuario(@RequestHeader("Authorization") String headerAuthorization, @PathVariable String nuevoPassword)
+  @PutMapping("/usuarios/{idUsuario}/passwords/{nuevoPassword}")
+  public ResponseEntity<Boolean> actualizarPasswordUsuario(@PathVariable Long idUsuario, @PathVariable String nuevoPassword)
   {
     try 
-    {
-      String token = jwtService.getToken(headerAuthorization);
-      String userName = jwtService.getUserNameFromToken(token);
-
+    { 
       if(null != nuevoPassword)
       {
         Usuario usuario = new Usuario();
         usuario.setPassword(bcrypt.encode(nuevoPassword));
-        usuario.setUserName(userName);
+        usuario.setIdUsuario(idUsuario);
         
         usuarioService.actualizarPasswordUsuario(usuario);
 
@@ -157,29 +154,26 @@ public class UsuarioRestController
    * @return Nuevo token si el usuario actualizó su username
    */
   // @PreAuthorize("hasRole('ROLE_ACUATEX_CLIENTE')")
-  @PutMapping("/usuarios/usernames/{nuevoUserName}")
-  public ResponseEntity<String> actualizarUserNameUsuario(@RequestHeader("Authorization") String headerAuthorization, @PathVariable String nuevoUserName)
+  @PutMapping("/usuarios/{idUsuario}/usernames/{nuevoUserName}")
+  public ResponseEntity<String> actualizarUserNameUsuario(@PathVariable Long idUsuario, @PathVariable String nuevoUserName)
   {
     try
     { 
-      String token = jwtService.getToken(headerAuthorization);
-      
-      String userName = jwtService.getUserNameFromToken(token);
-      
-
       if(usuarioService.existeUsuarioByUserName(nuevoUserName))
       {
         return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
       }
       
       Usuario usuario = new Usuario();
-      usuario.setUserName(userName);
+      usuario.setIdUsuario(idUsuario);
       usuario.setNuevoUserName(nuevoUserName);
 
       usuarioService.actualizarUserNameUsuario(usuario);
 
+      usuario.setUserName(nuevoUserName);
+
       //Al actualizar el userName estamos cambiando el username de la aplicación, recordar que este username esta impreso en el token, es por eso que debemos genear un token nuevo
-      token = jwtService.generarToken(usuario);
+      String token = jwtService.generarToken(usuario);
 
       //Se retorna el nuevo token
       return new ResponseEntity<String>(token, HttpStatus.OK);
@@ -191,6 +185,92 @@ public class UsuarioRestController
     catch (Exception e) 
     {
       return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+
+
+  /**
+   * Método que permite obtener el usuario a partir del token
+   * @param token que contiene el username
+   * @return Usuario encontrado
+   */
+  @GetMapping(value = "/usuarios")
+  public ResponseEntity<List<Usuario>> getAllUsuarios() 
+  {
+    try
+    {
+      List<Usuario> lstUsuarios = usuarioService.getAllUsuarios();
+
+      if(lstUsuarios.isEmpty())
+      {
+        return new ResponseEntity<List<Usuario>>(HttpStatus.NO_CONTENT);
+      }
+      
+      return new ResponseEntity<List<Usuario>>(lstUsuarios, HttpStatus.OK);
+    }
+    catch (Exception e) 
+    {
+      return new ResponseEntity<List<Usuario>>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+  
+  
+  
+  /**
+   * Método que permite obtener el usuario a partir del token
+   * @param token que contiene el username
+   * @return Usuario encontrado
+   */
+  @GetMapping(value = "/usuarios/token")
+  public ResponseEntity<Usuario> getUsuarioByUserName(@RequestHeader("Authorization") String headerAuthorization) 
+  {
+    try
+    {
+      String token = jwtService.getToken(headerAuthorization);
+      String userName = jwtService.getUserNameFromToken(token);
+
+      Usuario usuario = usuarioService.getUsuarioByUserName(userName);
+
+      if(null != usuario)
+      {
+        usuario.setPassword(null);
+        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+      }
+      
+      return new ResponseEntity<Usuario>(HttpStatus.NO_CONTENT);
+    }
+    catch (Exception e) 
+    {
+      return new ResponseEntity<Usuario>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+
+
+  /**
+   * Método que permite obtener el usuario a partir del id
+   * @param Id del usuario
+   * @return Usuario encontrado
+   */
+  @GetMapping(value = "/usuarios/{idUsuario}")
+  public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long idUsuario) 
+  {
+    try
+    {
+      Usuario usuario = usuarioService.getUsuarioById(idUsuario);
+
+      if(null != usuario)
+      {
+        usuario.setPassword(null);
+        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+      }
+      
+      return new ResponseEntity<Usuario>(HttpStatus.NO_CONTENT);
+    }
+    catch (Exception e) 
+    {
+      return new ResponseEntity<Usuario>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
