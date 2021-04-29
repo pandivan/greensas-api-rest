@@ -247,15 +247,15 @@ primary key (id_aforo)
 --Ejecutar consulta en la maquina de distribuidores y exportar el restulado a csv
 --SELECT [INT_PK_ID_TIEMPO] id_tiempo
 --      ,[DTM_FECHA] fecha
---      ,[INT_A—O] aÒo
---      ,[INT_A—O_SEMESTRE] semestre
+--      ,[INT_AÑO] año
+--      ,[INT_AÑO_SEMESTRE] semestre
 --      ,[INT_TRIMESTRE] trimestre
 --      ,[INT_MES] mes
 --      ,[VAR_MES_NOMBRE] mes_nombre
 --      ,[VAR_NOMBRE_DIA_SEMANA] dia_semana
 --      ,[INT_SEMANA] semana
---      ,[DTM_FECHA_INICIO_A—O] fecha_inicio_aÒo
---      ,[DTM_FECHA_FIN_A—O] fecha_fin_aÒo
+--      ,[DTM_FECHA_INICIO_AÑO] fecha_inicio_año
+--      ,[DTM_FECHA_FIN_AÑO] fecha_fin_año
 --      ,[DTM_FECHA_INICIO_SEMESTRE] fecha_inicio_semestre
 --      ,[DTM_FECHA_FIN_SEMESTRE] fecha_fin_semestre
 --      ,[DTM_FECHA_INICIO_TRIMESTRE] fecha_inicio_trimestre
@@ -265,7 +265,7 @@ primary key (id_aforo)
 --      ,[DTM_FECHA_INICIO_SEMANA] fecha_inicio_semana
 --      ,[DTM_FECHA_FIN_SEMANA] fecha_fin_semana
 --  FROM [DW_CENC_BI].[Dimensiones].[TIEMPO]
---  where INT_PK_ID_TIEMPO >= 20200101
+--  where INT_PK_ID_TIEMPO >= 20190101
 
 
 
@@ -536,3 +536,19 @@ select * from domicilios.producto_pedido pp ;
 
 
 --ALTER TABLE domicilios.cliente DROP COLUMN email;
+
+--admon_ibc.cenc_bo_informes_colaboracion.genera_info_kelloggs_dia_acum ('INFORMES_REGENERADOS', 'KELLOGGS_EXITO_SLSRPT_INVRPT_DIA_ACUMULADO_ENERO_2021.txt', '726', '01012020', '31122020');
+--admon_ibc.cenc_bo_informes_colaboracion.genera_info_kelloggs_dia_acum ('INFORMES_REGENERADOS', 'KELLOGGS_EXITO_SLSRPT_INVRPT_DIA_ACUMULADO_ENERO_2020.txt', '726', '01012020', '31012020');
+
+
+select distinct t.año, t.mes,
+'admon_ibc.cenc_bo_informes_colaboracion.genera_info_kelloggs_dia_acum (''INFORMES_REGENERADOS'', ''KELLOGGS_EXITO_SLSRPT_INVRPT_HISTORICO_ACUMULADO_'||upper(t.mes_nombre)||'_'||t.año||'.txt'''||', '||'''726'', '
+||''''||TO_CHAR(t.fecha_inicio_mes, 'ddmmyyyy') ||''', '||''''||TO_CHAR(t.fecha_fin_mes, 'ddmmyyyy') ||''');' as query
+from domicilios.tiempo t 
+where t.año != 2022
+order by t.año, t.mes
+;
+
+
+
+truncate table domicilios.tiempo;
