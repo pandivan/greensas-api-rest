@@ -73,9 +73,9 @@ public class PedidoRestController
 
 
   /**
-   * Método que permite actualizar una pedido
-   * @param pedido a actualizar
-   * @return true si el pedido fue actualizado, en caso contrario false
+   * Método que le permite a una sucursal aceptar una pedido
+   * @param pedido a aceptar
+   * @return true si el pedido fue aceptado, en caso contrario false
    */
   @PutMapping("/pedidos")
   public ResponseEntity<Boolean> aceptarPedido(@RequestBody Pedido pedido)
@@ -110,7 +110,7 @@ public class PedidoRestController
    * Método que permite actualizar el estado de un pedido
    * @param idPedido Id del pedido
    * @param idEstado Id del estado
-   * @return true si el pedido fue actualizado, en caso contrario false
+   * @return true si el estado del pedido fue actualizado, en caso contrario false
    */
   // @PreAuthorize("hasRole('ROLE_ACUATEX_CLIENTE')")
   @PutMapping("/pedidos/{idPedido}/estados/{idEstado}")
@@ -135,6 +135,32 @@ public class PedidoRestController
 
 
 
+  /**
+   * Método que permite obtener todos los pedidos
+   * @return Listado de pedidos
+   */
+  @GetMapping(value = "/pedidos")
+  public ResponseEntity<List<Pedido>> getAllPedidos() 
+  {
+    try
+    {
+      List<Pedido> lstPedidos = pedidoService.getAllPedidos();
+
+      if(lstPedidos.isEmpty())
+      {
+        return new ResponseEntity<List<Pedido>>(HttpStatus.NO_CONTENT);
+      }
+
+      return new ResponseEntity<List<Pedido>>(lstPedidos, HttpStatus.OK);
+    }
+    catch (Exception e) 
+    {
+      return new ResponseEntity<List<Pedido>>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+  
+  
+  
   /**
    * Método que permite obtener todos los pedidos PENDIENTES
    * @return Listado de pedidos
@@ -166,11 +192,11 @@ public class PedidoRestController
    * @return Listado de pedidos
    */
   @GetMapping(value = "/pedidos/sucursales/{idSucursal}")
-  public ResponseEntity<List<Pedido>> getHistorialPedidosSucursal(@PathVariable("idSucursal") Long idSucursal)
+  public ResponseEntity<List<Pedido>> getPedidosSucursal(@PathVariable("idSucursal") Long idSucursal)
   {
     try
     {
-      List<Pedido> lstPedidos = pedidoService.getHistorialPedidosSucursal(idSucursal, Constantes.ESTADO_ACEPTADO);
+      List<Pedido> lstPedidos = pedidoService.getPedidosSucursal(idSucursal, Constantes.ESTADO_ACEPTADO);
 
       if(lstPedidos.isEmpty())
       {
@@ -192,11 +218,11 @@ public class PedidoRestController
    * @return Listado de pedidos
    */
   @GetMapping(value = "/pedidos/clientes/{idCliente}")
-  public ResponseEntity<List<Pedido>> getHistorialPedidosCliente(@PathVariable("idCliente") Long idCliente)
+  public ResponseEntity<List<Pedido>> getPedidosCliente(@PathVariable("idCliente") Long idCliente)
   {
     try
     {
-      List<Pedido> lstPedidos = pedidoService.getHistorialPedidosCliente(new Cliente(idCliente));
+      List<Pedido> lstPedidos = pedidoService.getPedidosCliente(new Cliente(idCliente));
 
       if(lstPedidos.isEmpty())
       {

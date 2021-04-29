@@ -34,6 +34,10 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>
 
 
 
+  List<Pedido> findAll();
+  
+  
+  
   List<Pedido> findByIdEstado(Long idEstado);
 
 

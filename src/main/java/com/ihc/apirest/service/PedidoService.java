@@ -70,6 +70,18 @@ public class PedidoService
 
 
   /**
+   * Método que permite obtener todos los pedidos
+   * @param idEstado Id estado
+   * @return Listado de pedidos
+   */
+  public List<Pedido> getAllPedidos()
+  {
+    return pedidoRepository.findAll();
+  }
+  
+  
+  
+  /**
    * Método que permite obtener todos los pedidos según su estado
    * @param idEstado Id estado
    * @return Listado de pedidos
@@ -87,7 +99,7 @@ public class PedidoService
    * @param idEstado Id del estado
    * @return Listado de pedidos aceptados
    */
-  public List<Pedido> getHistorialPedidosSucursal(Long idSucursal, Long idEstado)
+  public List<Pedido> getPedidosSucursal(Long idSucursal, Long idEstado)
   {
     return pedidoRepository.findByIdSucursalAndIdEstado(idSucursal, idEstado);
   }
@@ -100,7 +112,7 @@ public class PedidoService
    * @param idEstado Id del estado
    * @return Listado de pedidos aceptados
    */
-  public List<Pedido> getHistorialPedidosCliente(Cliente cliente)
+  public List<Pedido> getPedidosCliente(Cliente cliente)
   {
     return pedidoRepository.findByCliente(cliente);
   }

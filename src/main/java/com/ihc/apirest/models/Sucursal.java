@@ -30,7 +30,13 @@ public class Sucursal
 	private Long idSucursal;
 	@JoinColumn(name = "idEmpresa")
 	@ManyToOne(optional = false)
-	@JsonIgnore //Se ignora este atributo ya que internamente "Pedido" tiene un Listado de <ProductoPedido> y esto genera un ciclo infinito en javascript a la hora de cargar un objeto "Pedido" que no permite ser enviado como respuesta
+	/**
+	 * Se ignora este atributo ya que internamente "Pedido" tiene un Listado de <ProductoPedido> 
+	 * y esto genera un ciclo infinito en javascript a la hora de cargar un objeto "Pedido" que no permite ser enviado como respuesta
+	 * como consecuancia solo se podra crear y actualizar una sucursal por medio del objeto "Empresa", de lo contrario debemos hacer
+	 * las inserciones de empresa y sucursales por separado
+	 */
+	@JsonIgnore
   private Empresa empresa;
 	private Long idGeografia;
 	private Long idEstado;

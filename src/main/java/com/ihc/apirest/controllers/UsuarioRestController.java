@@ -205,7 +205,11 @@ public class UsuarioRestController
 
       usuario.setUserName(nuevoUserName);
 
-      //Al actualizar el userName estamos cambiando el username de la aplicación, recordar que este username esta impreso en el token, es por eso que debemos genear un token nuevo
+      /**
+       * Al actualizar el userName estamos cambiando el username de la aplicación, 
+       * recordar que este username esta impreso en el token, 
+       * es por eso que debemos genear un token nuevo
+       */
       String token = jwtService.generarToken(usuario);
 
       //Se retorna el nuevo token
@@ -255,7 +259,7 @@ public class UsuarioRestController
    * @return Usuario encontrado
    */
   @GetMapping(value = "/usuarios/token")
-  public ResponseEntity<Usuario> getUsuarioByUserName(@RequestHeader("Authorization") String headerAuthorization) 
+  public ResponseEntity<Usuario> getUsuarioByToken(@RequestHeader("Authorization") String headerAuthorization) 
   {
     try
     {
@@ -308,6 +312,29 @@ public class UsuarioRestController
 
 
 
+  // /**
+  //  * Método que permite obtener el usuario a partir del token
+  //  * @param token que contiene el username
+  //  * @return Usuario encontrado
+  //  */
+  // @GetMapping(value = "/usuarios/token")
+  // public ResponseEntity<String> getUsuarioByToken(@RequestHeader("Authorization") String headerAuthorization) 
+  // {
+  //   try
+  //   {
+  //     String token = jwtService.getToken(headerAuthorization);
+  //     String userName = jwtService.getUserNameFromToken(token);
+
+  //     return new ResponseEntity<String>(userName, HttpStatus.OK);
+  //   }
+  //   catch (Exception e) 
+  //   {
+  //     return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+  //   }
+  // }
+  
+  
+  
   /**
    * Método que permite restaurar el password de un usuario
    * @param userName representa el usuario que contiene el email, al cual se enviarán las instrucciones para restaurar el password
