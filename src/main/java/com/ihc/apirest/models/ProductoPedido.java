@@ -29,9 +29,14 @@ public class ProductoPedido
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idProductoPedido;
 	
+	/**
+	 * Se ignora este atributo ya que internamente "Pedido" tiene un Listado de
+	 * <ProductoPedido> y esto genera un ciclo infinito en javascript a la hora de
+	 * cargar un objeto "Pedido" que no permite ser enviado como respuesta
+	 */
 	@JoinColumn(name = "idPedido")
 	@ManyToOne(optional = false)
-	@JsonIgnore //Se ignora este atributo ya que internamente "Pedido" tiene un Listado de <ProductoPedido> y esto genera un ciclo infinito a la hora de cargar un objeto "Pedido" que no permite ser enviado como respuesta
+	@JsonIgnore
   private Pedido pedido;
 	
 	@JoinColumn(name = "idProducto")

@@ -28,16 +28,20 @@ public class Sucursal
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idSucursal;
+
+	/**
+	 * Se ignora este atributo ya que internamente "Empresa" tiene un Listado de
+	 * <Sucursales> y esto genera un ciclo infinito en javascript a la hora de
+	 * cargar un objeto "Empresa" que no permite ser enviado como respuesta como
+	 * consecuancia solo se podra crear y actualizar una sucursal por medio del
+	 * objeto "Empresa", de lo contrario debemos hacer las inserciones de empresa y
+	 * sucursales por separado
+	 */
 	@JoinColumn(name = "idEmpresa")
 	@ManyToOne(optional = false)
-	/**
-	 * Se ignora este atributo ya que internamente "Pedido" tiene un Listado de <ProductoPedido> 
-	 * y esto genera un ciclo infinito en javascript a la hora de cargar un objeto "Pedido" que no permite ser enviado como respuesta
-	 * como consecuancia solo se podra crear y actualizar una sucursal por medio del objeto "Empresa", de lo contrario debemos hacer
-	 * las inserciones de empresa y sucursales por separado
-	 */
 	@JsonIgnore
   private Empresa empresa;
+
 	private Long idGeografia;
 	private Long idEstado;
 	private String nombre;
